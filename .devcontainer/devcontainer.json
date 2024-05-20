@@ -1,11 +1,18 @@
 {
   "extensions": [
-    "GitHub.github-vscode-theme"
-    // Additional Extensions Here
+    "GitHub.github-vscode-theme",
+    "ms-python.python"
   ],
+  "portsAttributes": {
+    "5000": {
+      "label": "Application",
+      "onAutoForward": "openPreview"
+    }
+  },
   "onCreateCommand": "echo PS1='\"$ \"' >> ~/.bashrc",
-  "postAttachCommand": "git pull --all"
-  
-  // Update welcome text and set terminal prompt to '$ '
+  "postAttachCommand": "git pull --all",
+  "forwardPorts": [
+    5000
+  ]
 }
 // DevContainer Reference: https://code.visualstudio.com/docs/remote/devcontainerjson-reference
