@@ -1,7 +1,8 @@
 {
   "extensions": [
     "GitHub.github-vscode-theme",
-    "ms-python.python"
+    "ms-python.python",
+    "jebbs.plantuml"
   ],
   "portsAttributes": {
     "5000": {
@@ -9,7 +10,10 @@
       "onAutoForward": "openPreview"
     }
   },
-  "onCreateCommand": "echo PS1='\"$ \"' >> ~/.bashrc",
+  "onCreateCommand": [
+    "apt -y update && apt install graphviz",
+    "echo PS1='\"$ \"' >> ~/.bashrc"
+  ],
   "postAttachCommand": "git pull --all",
   "forwardPorts": [
     5000
