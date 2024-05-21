@@ -1,7 +1,15 @@
 {
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "VARIANT": "3.11" // Set Python version here
+    }
+  },
   "extensions": [
     "GitHub.github-vscode-theme",
     "ms-python.python",
+    "ms-python.vscode-pylance",
     "jebbs.plantuml"
   ],
   "portsAttributes": {
@@ -10,10 +18,7 @@
       "onAutoForward": "openPreview"
     }
   },
-  "onCreateCommand": [
-    "apt -y update && apt install graphviz",
-    "echo PS1='\"$ \"' >> ~/.bashrc"
-  ],
+  "onCreateCommand": "echo PS1='\"$ \"' >> ~/.bashrc",
   "postAttachCommand": "git pull --all",
   "forwardPorts": [
     5000
