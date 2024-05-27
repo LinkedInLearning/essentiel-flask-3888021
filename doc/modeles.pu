@@ -1,0 +1,71 @@
+@startuml ORM Portfolio
+
+entity contacts {
+  * id : INTEGER <<PK, auto>>
+  * creation : DATETIME
+  * mail : VARCHAR
+  * sujet : VARCHAR
+  * message : TEXT
+}
+
+entity projets {
+  * id : INTEGER <<PK, auto>>
+  * titre : VARCHAR
+  description : TEXT
+  image : VARCHAR
+}
+
+entity avis {
+  * id : INTEGER <<PK, auto>>
+  * id_projet : INTEGER <<FK>>
+  * creation : DATETIME
+  * contenu : TEXT
+  * likes : INTEGER = 0
+  auteur : VARCHAR
+}
+
+entity references {
+  * id : INTEGER <<PK, auto>>
+  * entreprise : VARCHAR
+  * logo : VARCHAR
+}
+
+projets ||--o{ avis
+projets }|--o{ references
+
+class Contact {
+  id: int
+  creation: datetime
+  mail: string 
+  sujet: string
+  message: string
+}
+
+class Projet {
+  id: int
+  titre: string
+  image: string
+  description: string
+}
+
+class Avis {
+  id: int
+  id_projet: int
+  creation: datetime
+  contenu: string
+  likes: int 
+  auteur: string
+}
+
+
+class Reference {
+  id: int
+  entreprise: string
+  logo: string
+}
+
+Projet "projet"*--"avis" Avis
+Projet o--"refs" Reference
+Reference o--"projets" Projet
+
+@enduml
