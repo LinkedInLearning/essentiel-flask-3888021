@@ -52,7 +52,8 @@
           <h1>Mon portfolio de dév. Web en Python</h1>
           <p class="lead">Pour votre projet, vous cherchez une personne réactive qui comprenne votre métier et
             l'accompagne avec une approche personnalisée et professionnelle : Vous êtes au bon endroit !</p>
-          <h4>Mes 8 projets :</h4>
+          {% set nbprojets = liste|length %}
+            <h4>Mes {{ nbprojets }} projet{% if nbprojets>1 %}s{% endif %} :</h4>
         </div>
       </article>
     </div>
