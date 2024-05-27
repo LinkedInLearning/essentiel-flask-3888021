@@ -10,7 +10,9 @@
     "GitHub.github-vscode-theme",
     "ms-python.python",
     "ms-python.vscode-pylance",
-    "jebbs.plantuml"
+    "jebbs.plantuml",
+    "qwtel.sqlite-viewer",
+    "arjun.swagger-viewer"
   ],
   "portsAttributes": {
     "5000": {
