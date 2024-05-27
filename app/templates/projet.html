@@ -43,13 +43,13 @@
 
     <div class="grid-x grid-margin-x">
       <div class="medium-6 cell">
-        <img class="thumbnail" src="img/site00.png" width="650px">
+        <img class="thumbnail" src="{{ url_for('static', filename='img/site00.png') }}" width="650px">
         <div class="grid-container">
           <div class="grid-x grid-padding-x small-up-4">
-            <div class="cell"><img class="thumbnail" src="img/site00.png"></div>
-            <div class="cell"><img class="thumbnail" src="img/site01.png"></div>
-            <div class="cell"><img class="thumbnail" src="img/site02.png"></div>
-            <div class="cell"><img class="thumbnail" src="img/site03.png"></div>
+            <div class="cell"><img class="thumbnail" src="{{ url_for('static', filename='img/site00.png') }}"></div>
+            <div class="cell"><img class="thumbnail" src="{{ url_for('static', filename='img/site01.png') }}"></div>
+            <div class="cell"><img class="thumbnail" src="{{ url_for('static', filename='img/site02.png') }}"></div>
+            <div class="cell"><img class="thumbnail" src="{{ url_for('static', filename='img/site03.png') }}"></div>
           </div>
         </div>
       </div>
@@ -92,7 +92,7 @@
           <div id="liste-avis">
             <div>
               <h6>Leïla B. -
-                <a href="/portfolio/projet/1/like/3" class="primary"><i class="fi-like large"></i> 7 likes</a>
+                <a href="#" class="primary"><i class="fi-like large"></i> 7 likes</a>
               </h6>
               <blockquote>
                 Travailler avec Alice BOB a été un réel plaisir. Elle est à l&#39;écoute, réactive et très
@@ -102,7 +102,7 @@
             </div>
             <div>
               <h6>Jeanne L. -
-                <a href="/portfolio/projet/1/like/1" class="primary"><i class="fi-like large"></i> 6 likes</a>
+                <a href="#" class="primary"><i class="fi-like large"></i> 6 likes</a>
               </h6>
               <blockquote>
                 Alice a su créer une page d&#39;accueil à la fois esthétique et fonctionnelle pour notre site internet.
@@ -112,7 +112,7 @@
             </div>
             <div>
               <h6>Marc D. -
-                <a href="/portfolio/projet/1/like/2" class="primary"><i class="fi-like large"></i> 2 likes</a>
+                <a href="#" class="primary"><i class="fi-like large"></i> 2 likes</a>
               </h6>
               <blockquote>
                 Je recommande vivement Mme BOB qui a parfaitement su s&#39;adapter à nos besoins et à notre univers
@@ -124,14 +124,16 @@
         <div class="tabs-panel" id="panel2">
           <div class="grid-x grid-margin-x medium-up-3 large-up-5">
             <div class="cell">
-              <img class="thumbnail" src="img/logos/aqua.png" title="Aqua Corp." alt="Logo de Aqua Corp.">
+              <img class="thumbnail" src="{{ url_for('static', filename='img/logos/aqua.png') }}" title="Aqua Corp."
+                alt="Logo de Aqua Corp.">
             </div>
             <div class="cell">
-              <img class="thumbnail" src="img/logos/colormix.png" title="Colormix Ltd." alt="Logo de Colormix Ltd.">
+              <img class="thumbnail" src="{{ url_for('static', filename='img/logos/colormix.png') }}"
+                title="Colormix Ltd." alt="Logo de Colormix Ltd.">
             </div>
             <div class="cell">
-              <img class="thumbnail" src="img/logos/integration.png" title="Integration AG"
-                alt="Logo de Integration AG">
+              <img class="thumbnail" src="{{ url_for('static', filename='img/logos/integration.png') }}"
+                title="Integration AG" alt="Logo de Integration AG">
             </div>
           </div>
         </div>
