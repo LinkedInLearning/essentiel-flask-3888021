@@ -64,7 +64,7 @@
         {% for p in liste %}
         <div class="cell">
           <h5>{{ p.titre }}</h5>
-          <a href="/projet">
+          <a href="{{ url_for('projet', idproj=p.id) }}">
             <img class="thumbnail" src="{{ url_for('static', filename=p.image) }}">
           </a>
         </div>
