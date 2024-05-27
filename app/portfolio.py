@@ -11,4 +11,4 @@ def index():
 
 @app.route("/projet")
 def projet():
-    return render_template('projet.html', projet=projets[0], avis=avis)
+    return render_template('projet.html', projet=projets[1], avis=avis)

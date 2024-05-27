@@ -61,54 +61,14 @@
 
     <article class="grid-container">
       <div class="grid-x grid-margin-x small-up-1 medium-up-2 large-up-3">
+        {% for p in liste %}
         <div class="cell">
-          <h5>Pages d&#39;accueil</h5>
-          <a href="projet.html">
-            <img class="thumbnail" src="{{ url_for('static', filename='img/site00.png') }}">
+          <h5>{{ p.titre }}</h5>
+          <a href="/projet">
+            <img class="thumbnail" src="{{ url_for('static', filename=p.image) }}">
           </a>
         </div>
-        <div class="cell">
-          <h5>Fiches produits</h5>
-          <a href="projet.html">
-            <img class="thumbnail" src="{{ url_for('static', filename='img/site01.png') }}">
-          </a>
-        </div>
-        <div class="cell">
-          <h5>SEO</h5>
-          <a href="projet.html">
-            <img class="thumbnail" src="{{ url_for('static', filename='img/site02.png') }}">
-          </a>
-        </div>
-        <div class="cell">
-          <h5>Persona</h5>
-          <a href="projet.html">
-            <img class="thumbnail" src="{{ url_for('static', filename='img/site03.png') }}">
-          </a>
-        </div>
-        <div class="cell">
-          <h5>Catalogues</h5>
-          <a href="projet.html">
-            <img class="thumbnail" src="{{ url_for('static', filename='img/site04.png') }}">
-          </a>
-        </div>
-        <div class="cell">
-          <h5>Carrousels</h5>
-          <a href="projet.html">
-            <img class="thumbnail" src="{{ url_for('static', filename='img/site05.png') }}">
-          </a>
-        </div>
-        <div class="cell">
-          <h5>Applications</h5>
-          <a href="projet.html">
-            <img class="thumbnail" src="{{ url_for('static', filename='img/site06.png') }}">
-          </a>
-        </div>
-        <div class="cell">
-          <h5>Pages de contact</h5>
-          <a href="projet.html">
-            <img class="thumbnail" src="{{ url_for('static', filename='img/site07.png') }}">
-          </a>
-        </div>
+        {% endfor %}
       </div>
       <hr>
       <div class="grid-x grid-margin-x">

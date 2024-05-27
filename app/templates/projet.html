@@ -88,35 +88,17 @@
         <div class="tabs-panel is-active" id="panel1">
           <p><em>Vous aussi <a href="#">donnez votre avis</a>...</em></p>
           <div id="liste-avis">
+            {% for a in avis|selectattr('id_projet', 'equalto', projet.id)|sort(attribute='likes', reverse=true) %}
             <div>
-              <h6>Leïla B. -
-                <a href="#" class="primary"><i class="fi-like large"></i> 7 likes</a>
+              <h6>{{ a.auteur }} -
+                <a href="#" class="primary"><i class="fi-like large"></i>
+                  {{ a.likes }} like{% if a.likes>1 %}s{% endif %}
+                </a>
               </h6>
-              <blockquote>
-                Travailler avec Alice BOB a été un réel plaisir. Elle est à l&#39;écoute, réactive et très
-                professionnelle. La page d&#39;accueil qu&#39;elle a créée pour notre site est moderne, dynamique et
-                correspond parfaitement à notre cahier des charges.
-              </blockquote>
+              <blockquote>{{ a.contenu }}</blockquote>
             </div>
-            <div>
-              <h6>Jeanne L. -
-                <a href="#" class="primary"><i class="fi-like large"></i> 6 likes</a>
-              </h6>
-              <blockquote>
-                Alice a su créer une page d&#39;accueil à la fois esthétique et fonctionnelle pour notre site internet.
-                Grâce à ses compétences en Python et en développement web, elle a répondu à toutes nos attentes et nous
-                sommes ravis du résultat.
-              </blockquote>
-            </div>
-            <div>
-              <h6>Marc D. -
-                <a href="#" class="primary"><i class="fi-like large"></i> 2 likes</a>
-              </h6>
-              <blockquote>
-                Je recommande vivement Mme BOB qui a parfaitement su s&#39;adapter à nos besoins et à notre univers
-                graphique. La page qu&#39;elle a développée est fluide, ergonomique et très bien optimisée.
-              </blockquote>
-            </div>
+            {% endfor %}
+            
           </div>
         </div>
         <div class="tabs-panel" id="panel2">
