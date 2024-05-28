@@ -55,7 +55,15 @@
   </ul>
   <div class="tabs-content" data-tabs-content="example-tabs">
     <div class="tabs-panel is-active" id="panel1">
+      {% if formavis %}
+          <form method="post">
+            {{ formavis.auteur.label }} {{ formavis.auteur(placeholder="Votre nom (votre entreprise)") }}
+            {{ formavis.contenu.label }} {{ formavis.contenu(placeholder="Prestation formidable !") }}
+            <button class="button" name="avis" value="ok">Donner votre avis</button>
+          </form>
+      {% else %}
       <p><em>Vous aussi <a href="?formavis">donnez votre avis</a>...</em></p>
+      {% endif %}
       <div id="liste-avis">
         {% for a in projet.avis|selectattr('ok')|sort(attribute='likes', reverse=true) %}
         <div>
@@ -67,7 +75,7 @@
           <blockquote>{{ a.contenu }}</blockquote>
         </div>
         {% endfor %}
-        
+
       </div>
     </div>
     <div class="tabs-panel" id="panel2">

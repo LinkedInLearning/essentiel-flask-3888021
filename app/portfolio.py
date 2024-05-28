@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request
 from app.modeles import Projet, Avis, Contact, db
+from app.forms import FormAvis
 from os import path
 
 app = Flask(__name__, 
@@ -23,8 +24,9 @@ def index():
 
 @app.route("/projet/<int:idproj>")
 def projet(idproj):
+    form = None
     if 'formavis' in request.values:
-        pass # AFAIRE        
+        form = FormAvis()        
     if 'idavis' in request.args:
         idavis = request.args.get('idavis')
         avis = db.get_or_404(Avis, idavis)
@@ -32,7 +34,7 @@ def projet(idproj):
         db.session.commit()
         return redirect(url_for('projet', idproj=idproj, _anchor='liste-avis'))
     projet = db.get_or_404(Projet, idproj)
-    return render_template('projet.html', projet=projet)
+    return render_template('projet.html', projet=projet, formavis=form)
 
 
 @app.route("/admin")
