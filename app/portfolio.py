@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template
 from app.modeles import Projet, Avis, Contact, avis, db
 from os import path
 
