@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for
-from app.modeles import projets, avis, db
+from app.modeles import Projet, Avis, Contact, avis, db
 from os import path
 
 app = Flask(__name__, 
@@ -17,14 +17,13 @@ def introuvable(e=None):
 
 @app.route("/")
 def index():
+    projets = db.session.query(Projet).all()
     return render_template('index.html', liste=projets)
 
 
 @app.route("/projet/<int:idproj>")
 def projet(idproj):
-    projet = next((p for p in projets if p['id'] == idproj), None)
-    if projet is None:
-        return redirect(url_for('introuvable'))
+    projet = db.get_or_404(Projet, idproj)
     return render_template('projet.html', projet=projet, avis=avis)
 
 
@@ -32,7 +31,12 @@ def projet(idproj):
 def admin():
     return render_template(
         'admin.html', 
-        avis = [],
-        contacts = [],
+        avis = db.session
+            .query(Avis)
+            .filter_by(ok=False), # .where(Avis.ok == False)
+        contacts = db.session
+            .query(Contact)
+            .order_by(Contact.creation.desc())
+            .limit(20),
         utilisateurs = []
     )
