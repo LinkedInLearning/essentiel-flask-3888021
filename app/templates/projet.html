@@ -57,7 +57,7 @@
     <div class="tabs-panel is-active" id="panel1">
       <p><em>Vous aussi <a href="#">donnez votre avis</a>...</em></p>
       <div id="liste-avis">
-        {% for a in avis|selectattr('id_projet', 'equalto', projet.id)|sort(attribute='likes', reverse=true) %}
+        {% for a in projet.avis|selectattr('ok')|sort(attribute='likes', reverse=true) %}
         <div>
           <h6>{{ a.auteur }} -
             <a href="#" class="primary"><i class="fi-like large"></i>
@@ -72,18 +72,12 @@
     </div>
     <div class="tabs-panel" id="panel2">
       <div class="grid-x grid-margin-x medium-up-3 large-up-5">
+        {% for r in projet.refs %}
         <div class="cell">
-          <img class="thumbnail" src="{{ url_for('static', filename='img/logos/aqua.png') }}" title="Aqua Corp."
-            alt="Logo de Aqua Corp.">
+          <img class="thumbnail" src="{{ url_for('static', filename=r.logo) }}" title="{{ r.entreprise }}"
+            alt="Logo de {{ r.entreprise }}">
         </div>
-        <div class="cell">
-              <img class="thumbnail" src="{{ url_for('static', filename='img/logos/colormix.png') }}"
-                title="Colormix Ltd." alt="Logo de Colormix Ltd.">
-        </div>
-        <div class="cell">
-          <img class="thumbnail" src="{{ url_for('static', filename='img/logos/integration.png') }}"
-            title="Integration AG" alt="Logo de Integration AG">
-        </div>
+        {% endfor %}
       </div>
     </div>
   </div>
