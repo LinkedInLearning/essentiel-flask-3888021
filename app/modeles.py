@@ -1,4 +1,8 @@
 from datetime import datetime
+from typing import List
+from typing import Optional
+from sqlalchemy import ForeignKey, String, Text, DateTime, Table, Column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from flask_sqlalchemy import SQLAlchemy
 
 projets = [
@@ -192,3 +196,55 @@ refs_projets = [
 ]
 
 db = SQLAlchemy()
+
+
+references_projets = Table(
+    'references_projets', db.Model.metadata,
+    Column('id_reference', ForeignKey('references.id'), primary_key=True),
+    Column('id_projet'   , ForeignKey('projets.id'   ), primary_key=True)
+)
+
+
+class Contact(db.Model):
+  __tablename__ = 'contacts'
+
+  id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+  creation: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+  mail: Mapped[str]
+  sujet: Mapped[str] = mapped_column(String(20))
+  message: Mapped[str] = mapped_column(Text())
+
+
+class Reference(db.Model):
+  __tablename__ = 'references'
+
+  id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+  entreprise: Mapped[str] = mapped_column(String(50))
+  logo: Mapped[str]
+
+  projets: Mapped[List['Projet']] = relationship(secondary=references_projets, back_populates='refs')
+
+
+class Projet(db.Model):
+  __tablename__ = 'projets'
+
+  id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+  titre: Mapped[str] = mapped_column(String(50))
+  description: Mapped[Optional[str]] = mapped_column(Text())
+  image: Mapped[Optional[str]] 
+
+  avis: Mapped[List['Avis']] = relationship(back_populates='projet', cascade="all, delete-orphan")
+  refs: Mapped[List['Reference']] = relationship(secondary=references_projets, back_populates='projets')
+
+
+class Avis(db.Model):
+  __tablename__ = 'avis'
+
+  id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+  creation: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+  contenu: Mapped[str]
+  likes: Mapped[int] = mapped_column(default=0)
+  auteur: Mapped[Optional[str]] = mapped_column(String(50))
+
+  id_projet: Mapped[int] = mapped_column(ForeignKey('projets.id'))
+  projet: Mapped['Projet'] = relationship(back_populates='avis')
