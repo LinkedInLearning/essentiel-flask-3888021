@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
 
 projets = [
   {"id": 1, "titre": "Pages d'accueil", "image": "img/site00.png", "description": 
@@ -189,3 +190,5 @@ refs_projets = [
   {"id_projet": 8, "id_reference": 9},
   {"id_projet": 8, "id_reference": 3},
 ]
+
+db = SQLAlchemy()
