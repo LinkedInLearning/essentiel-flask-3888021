@@ -22,11 +22,18 @@ def index():
     return render_template('index.html', liste=projets)
 
 
-@app.route("/projet/<int:idproj>")
+@app.route("/projet/<int:idproj>", methods=['GET', 'POST'])
 def projet(idproj):
     form = None
     if 'formavis' in request.values:
-        form = FormAvis()
+        avis = Avis()
+        avis.id_projet = idproj
+        form = FormAvis(request.form, avis)
+        if request.method == 'POST' and 'avis' in request.values:
+            form.populate_obj(avis)
+            db.session.add(avis)
+            db.session.commit()
+            return redirect(url_for('projet', idproj=idproj))
     if 'idavis' in request.args:
         idavis = request.args.get('idavis')
         avis = db.get_or_404(Avis, idavis)
