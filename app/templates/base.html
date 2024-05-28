@@ -67,7 +67,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.js"></script>
   <script>
     $(document).foundation();
-    $('#boite-cookies').foundation('open');
+    if(!$(location).attr('hash')) {
+      $('#boite-cookies').foundation('open');
+    }
   </script>
   {% block script %}{% endblock %}
 </body>

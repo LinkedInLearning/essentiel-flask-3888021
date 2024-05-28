@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from app.modeles import Projet, Avis, Contact, avis, db
+from flask import Flask, render_template, redirect, url_for, request
+from app.modeles import Projet, Avis, Contact, db
 from os import path
 
 app = Flask(__name__, 
@@ -24,7 +24,7 @@ def index():
 @app.route("/projet/<int:idproj>")
 def projet(idproj):
     projet = db.get_or_404(Projet, idproj)
-    return render_template('projet.html', projet=projet, avis=avis)
+    return render_template('projet.html', projet=projet)
 
 
 @app.route("/admin")
@@ -40,3 +40,19 @@ def admin():
             .limit(20),
         utilisateurs = []
     )
+
+
+@app.route("/admin/avis/<int:idavis>/ok")
+def admin_avis_ok(idavis):
+    # AFAIRE
+    return redirect(url_for('admin', _anchor='moderation'))
+
+@app.route("/admin/avis/<int:idavis>/suppr")
+def admin_avis_suppr(idavis):
+    # AFAIRE
+    return redirect(url_for('admin', _anchor='moderation'))
+
+@app.route("/admin/contact/<int:idcontact>/suppr")
+def admin_contact_suppr(idcontact):
+    # AFAIRE
+    return redirect(url_for('admin', _anchor='contacts'))

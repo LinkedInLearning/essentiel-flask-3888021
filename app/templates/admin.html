@@ -34,9 +34,9 @@
           <td nowrap>{{ a.auteur }}</td>
           <td>{{ a.contenu }}</td>
           <td nowrap>
-            <a href="#" class="button success small"><i class="fi-check"></i> Approuver</a>
+            <a href="{{ url_for('admin_avis_ok', idavis=a.id) }}" class="button success small"><i class="fi-check"></i> Approuver</a>
             <a href="#" class="button warning small"><i class="fi-pencil"></i> Éditer</a>
-            <a href="#" class="button alert small"><i class="fi-x"></i> Rejeter</a>
+            <a href="{{ url_for('admin_avis_suppr', idavis=a.id) }}" class="button alert small"><i class="fi-x"></i> Rejeter</a>
           </td>
         </tr>
         {% endfor %}
@@ -61,7 +61,7 @@
           <td nowrap>{{ c.mail }}</td>
           <td nowrap>{{ c.sujet }}</td>
           <td>{{ c.message }}</td>
-          <td nowrap><a href="#" class="button alert small"><i class="fi-x"></i> Suppr.</a></td>
+          <td nowrap><a href="{{ url_for('admin_contact_suppr', idcontact=a.id) }}" class="button alert small"><i class="fi-x"></i> Suppr.</a></td>
         </tr>
         {% endfor %}
       </tbody>
