@@ -23,6 +23,8 @@ def index():
 
 @app.route("/projet/<int:idproj>")
 def projet(idproj):
+    if 'formavis' in request.values:
+        pass # AFAIRE        
     if 'idavis' in request.args:
         idavis = request.args.get('idavis')
         avis = db.get_or_404(Avis, idavis)

@@ -55,7 +55,7 @@
   </ul>
   <div class="tabs-content" data-tabs-content="example-tabs">
     <div class="tabs-panel is-active" id="panel1">
-      <p><em>Vous aussi <a href="#">donnez votre avis</a>...</em></p>
+      <p><em>Vous aussi <a href="?formavis">donnez votre avis</a>...</em></p>
       <div id="liste-avis">
         {% for a in projet.avis|selectattr('ok')|sort(attribute='likes', reverse=true) %}
         <div>
@@ -67,7 +67,7 @@
           <blockquote>{{ a.contenu }}</blockquote>
         </div>
         {% endfor %}
-
+        
       </div>
     </div>
     <div class="tabs-panel" id="panel2">

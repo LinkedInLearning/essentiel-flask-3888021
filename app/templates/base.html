@@ -67,7 +67,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.js"></script>
   <script>
     $(document).foundation();
-    if(!$(location).attr('hash')) {
+    if(!$(location).attr('hash') && !window.location.search) {
       $('#boite-cookies').foundation('open');
     }
   </script>
