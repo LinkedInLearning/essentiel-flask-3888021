@@ -243,6 +243,7 @@ class Avis(db.Model):
   id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
   creation: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
   contenu: Mapped[str]
+  ok: Mapped[bool] = mapped_column(default=False)
   likes: Mapped[int] = mapped_column(default=0)
   auteur: Mapped[Optional[str]] = mapped_column(String(50))
 

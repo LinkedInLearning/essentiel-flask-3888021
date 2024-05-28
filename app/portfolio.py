@@ -26,3 +26,13 @@ def projet(idproj):
     if projet is None:
         return redirect(url_for('introuvable'))
     return render_template('projet.html', projet=projet, avis=avis)
+
+
+@app.route("/admin")
+def admin():
+    return render_template(
+        'admin.html', 
+        avis = [],
+        contacts = [],
+        utilisateurs = []
+    )
