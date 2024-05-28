@@ -26,7 +26,7 @@ def index():
 def projet(idproj):
     form = None
     if 'formavis' in request.values:
-        form = FormAvis()        
+        form = FormAvis()
     if 'idavis' in request.args:
         idavis = request.args.get('idavis')
         avis = db.get_or_404(Avis, idavis)
