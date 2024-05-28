@@ -57,6 +57,10 @@
     <div class="tabs-panel is-active" id="panel1">
       {% if formavis %}
           <form method="post">
+            {{ formavis.csrf_token }}
+            {% if formavis.csrf_token.errors %}
+            <div class="callout alert">Formulaire trop ancien, veuillez le soumettre à nouveau.</div>
+            {% endif %}
             {{ formavis.auteur.label }} {{ formavis.auteur(placeholder="Votre nom (votre entreprise)") }}
             {{ formavis.contenu.label }} {{ formavis.contenu(placeholder="Prestation formidable !") }}
             <button class="button" name="avis" value="ok">Donner votre avis</button>
