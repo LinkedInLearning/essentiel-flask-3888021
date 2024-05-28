@@ -60,7 +60,7 @@
         {% for a in projet.avis|selectattr('ok')|sort(attribute='likes', reverse=true) %}
         <div>
           <h6>{{ a.auteur }} -
-            <a href="#" class="primary"><i class="fi-like large"></i>
+            <a href="?idavis={{ a.id }}" class="primary"><i class="fi-like large"></i>
               {{ a.likes }} like{% if a.likes>1 %}s{% endif %}
             </a>
           </h6>
