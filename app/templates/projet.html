@@ -58,9 +58,23 @@
       {% if formavis %}
           <form method="post">
             {{ formavis.csrf_token }}
-            {% if formavis.csrf_token.errors %}
-            <div class="callout alert">Formulaire trop ancien, veuillez le soumettre à nouveau.</div>
+            {% if formavis.errors %}
+            <div class="callout alert">
+              <h5>Oups, quelques problèmes avec le formulaire :</h5>
+              <ul>
+                {% for entree, erreurs in formavis.errors.items() %}
+                  {% if entree == 'csrf_token' %}
+                    <li>Formulaire trop ancien, veuillez le soumettre à nouveau.</li>
+                  {% else %}
+                    {% for err in erreurs %}
+                    <li>{{ err }}</li>
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
             {% endif %}
+
             {{ formavis.auteur.label }} {{ formavis.auteur(placeholder="Votre nom (votre entreprise)") }}
             {{ formavis.contenu.label }} {{ formavis.contenu(placeholder="Prestation formidable !") }}
             <button class="button" name="avis" value="ok">Donner votre avis</button>
