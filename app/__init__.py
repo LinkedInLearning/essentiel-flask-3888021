@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, session
-from app.modeles import db
+from flask_security import Security, SQLAlchemyUserDatastore
+from flask_babel import Babel
+from app.modeles import db, Utilisateur, Role
 from os import path
 from app import admin, portfolio
 
@@ -10,6 +12,12 @@ def create_app():
                 instance_relative_config=True)
     app.config.from_pyfile('config.py')
     db.init_app(app)
+
+    Babel(app)
+
+    app.security = Security(
+        app, SQLAlchemyUserDatastore(db, Utilisateur, Role)
+    )
 
     @app.errorhandler(404)
     @app.route("/oups")
