@@ -17,10 +17,10 @@
   <div class="reveal" id="boite-cookies" data-reveal>
     <h3>Information sur les cookies</h3>
     <p>Des cookies sont utilisés sur ce site pour vous proposer une expérience utilisateur optimale.</p>
-    <a class="primary button" href="?cookies=y">Accepter</a> <a class="secondary button" href="?cookies=n">Refuser</a>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <div>
+      <a class="primary button" href="?cookies=y">Accepter</a> 
+      <a class="secondary button" href="?cookies=n">Refuser</a>
+    </div>
   </div>
 
   {% block page %}
@@ -76,9 +76,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.js"></script>
   <script>
     $(document).foundation();
-    if(!$(location).attr('hash') && !window.location.search) {
-      $('#boite-cookies').foundation('open');
-    }
+    $('#boite-cookies').foundation('open');
   </script>
   {% block script %}{% endblock %}
 </body>
