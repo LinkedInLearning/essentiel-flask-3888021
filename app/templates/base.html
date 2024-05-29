@@ -14,6 +14,7 @@
 </head>
 
 <body>
+  {% if not session['cookies'] %}
   <div class="reveal" id="boite-cookies" data-reveal>
     <h3>Information sur les cookies</h3>
     <p>Des cookies sont utilisés sur ce site pour vous proposer une expérience utilisateur optimale.</p>
@@ -22,6 +23,7 @@
       <a class="secondary button" href="?cookies=n">Refuser</a>
     </div>
   </div>
+  {% endif %}
 
   {% block page %}
   <!-- Start Top Bar -->

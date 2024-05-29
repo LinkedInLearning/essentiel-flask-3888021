@@ -19,6 +19,8 @@ def introuvable(e=None):
 
 @app.route("/")
 def index():
+    if 'cookies' in request.args:
+        session['cookies'] = request.args['cookies']
     projets = db.session.query(Projet).all()
     return render_template('index.html', liste=projets)
 
@@ -43,6 +45,12 @@ def projet(idproj):
     if 'idavis' in request.args:
         idavis = request.args.get('idavis')
         avis = db.get_or_404(Avis, idavis)
+        if 'likes' not in session:
+            session['likes'] = []    
+        if idavis in session['likes']:
+            flash(f"Déjà fait ! Votre like pour l'avis de {avis.auteur} a déjà été pris en compte.", 'warning')
+            return redirect(url_for('projet', idproj=idproj))
+        session['likes'].append(idavis)
         avis.likes += 1
         flash(f"Et de {avis.likes} ! Votre like sur l'avis de {avis.auteur} est comptabilisé.", 'success')
         db.session.commit()
