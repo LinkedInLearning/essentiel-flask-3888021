@@ -249,3 +249,4 @@ class Avis(db.Model):
 
   id_projet: Mapped[int] = mapped_column(ForeignKey('projets.id'))
   projet: Mapped['Projet'] = relationship(back_populates='avis')
+  
