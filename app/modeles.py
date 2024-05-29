@@ -3,6 +3,7 @@ from typing import List
 from typing import Optional
 from sqlalchemy import ForeignKey, String, Text, DateTime, Table, Column
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from flask_security.models import fsqla_v3 as fsqla
 from flask_sqlalchemy import SQLAlchemy
 
 projets = [
@@ -250,3 +251,18 @@ class Avis(db.Model):
   id_projet: Mapped[int] = mapped_column(ForeignKey('projets.id'))
   projet: Mapped['Projet'] = relationship(back_populates='avis')
   
+
+fsqla.FsModels.set_db_info(db, user_table_name='utilisateurs', role_table_name='roles', webauthn_table_name='webauthn')
+
+
+class Role(db.Model, fsqla.FsRoleMixin):
+    __tablename__ = 'roles'
+
+
+class Utilisateur(db.Model, fsqla.FsUserMixin):
+    __tablename__ = 'utilisateurs'
+
+
+class WebAuthn(db.Model, fsqla.FsWebAuthnMixin):
+    __tablename__ = 'webauthn'
+
