@@ -1,6 +1,6 @@
 <!doctype html>
 <html class="no-js" lang="fr">
-
+{% set accueil = 'portfolio.index' %}
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,7 +31,7 @@
     <div class="top-bar-left">
       <ul class="dropdown menu" data-dropdown-menu>
         <li class="menu-text">Alice BOB</li>
-        <li><a href="{{ url_for('index') }}">Accueil</a></li>
+        <li><a href="{{ url_for(accueil) }}">Accueil</a></li>
       </ul>
     </div>
     <div class="top-bar-right">
@@ -45,7 +45,7 @@
   <div class="grid-container">
     <nav aria-label="Vous êtes ici :" role="navigation">
       <ul class="breadcrumbs">
-        <li><a href="{{ url_for('index') }}">Accueil</a></li>
+        <li><a href="{{ url_for(accueil) }}">Accueil</a></li>
         {% block breadcrumb %}{% endblock %}
       </ul>
     </nav>
@@ -68,7 +68,7 @@
     <hr>
     <ul class="menu simple">
       <li>Alice BOB</li>
-      <li><a href="{{ url_for('index') }}">Accueil</a></li>
+      <li><a href="{{ url_for(accueil) }}">Accueil</a></li>
       <li><a href="#">Mentions légales</a></li>
     </ul>
   </div>

@@ -26,4 +26,6 @@ def create_app():
   app.register_blueprint(admin.bp)
   app.register_blueprint(portfolio.bp)
 
+  app.add_url_rule("/", endpoint="portfolio.index")
+  
   return app
