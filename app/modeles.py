@@ -262,6 +262,8 @@ class Role(db.Model, fsqla.FsRoleMixin):
 class Utilisateur(db.Model, fsqla.FsUserMixin):
     __tablename__ = 'utilisateurs'
 
+    logo: Mapped[Optional[str]]
+
 
 class WebAuthn(db.Model, fsqla.FsWebAuthnMixin):
     __tablename__ = 'webauthn'
