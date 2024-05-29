@@ -18,6 +18,7 @@ PORTFOLIO_INFO_PERSO = ['@', 'http', 'adresse', 'téléphone', 'tel', 'tél']
 
 SECURITY_PASSWORD_SALT='xN2u_h0hvNWjs6-wK_OrmXWcMjM'
 SECURITY_URL_PREFIX='/auth'
+SECURITY_POST_LOGIN_VIEW='client.index'
 
 BABEL_DEFAULT_LOCALE='fr'
 

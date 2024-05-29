@@ -3,7 +3,7 @@ from flask_security import Security, SQLAlchemyUserDatastore, hash_password
 from flask_babel import Babel
 from app.modeles import db, Utilisateur, Role
 from os import path
-from app import admin, portfolio
+from app import admin, client, portfolio
 
 
 def create_app():
@@ -40,6 +40,7 @@ def create_app():
             session.permanent = pref == 'y'
 
     app.register_blueprint(admin.bp)
+    app.register_blueprint(client.bp)
     app.register_blueprint(portfolio.bp)
 
     app.add_url_rule("/", endpoint="portfolio.index")
