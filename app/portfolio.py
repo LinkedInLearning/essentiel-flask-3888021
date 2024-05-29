@@ -88,6 +88,7 @@ def admin_avis_ok(idavis):
     flash("Approuvé ! L'avis est maintenant en ligne.", 'success')
     return redirect(url_for('admin', _anchor='moderation'))
 
+
 @app.route("/admin/avis/<int:idavis>/suppr")
 def admin_avis_suppr(idavis):
     avis = db.get_or_404(Avis, idavis)
@@ -95,6 +96,7 @@ def admin_avis_suppr(idavis):
     db.session.commit()
     flash("Supprimé ! L'avis est bien supprimé.", 'success')
     return redirect(url_for('admin', _anchor='moderation'))
+
 
 @app.route("/admin/contact/<int:idcontact>/suppr")
 def admin_contact_suppr(idcontact):
