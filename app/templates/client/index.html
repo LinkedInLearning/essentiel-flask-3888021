@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block titre %}- Mon compte{% endblock %}
+
+{% block breadcrumb %}
+<li>
+  <span class="show-for-sr">Actuel : </span> Mon compte
+</li>
+{% endblock %}
+
+{% block contenu %}
+<div class="margin-3">
+  <h3>Mes informations</h3>
+  <div class="callout primary">
+    <h5>Statut de votre compte</h5>
+    <p class="margin-left-3">Compte {% if true %}actif{% else %}inactif{% endif %}</p>
+    <h5>Votre mail</h5>
+    <p class="margin-left-3">{# mail #}</p>
+    <h5>Création du compte</h5>
+    <p class="margin-left-3">{# Date de création #}</p>
+  </div>
+</div>
+{% endblock %}

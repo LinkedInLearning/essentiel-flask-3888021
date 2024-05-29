@@ -16,13 +16,11 @@
 <body>
   {% macro menu_login() %}
   <ul class="menu">
-    <li>
-      {% if current_user.is_authenticated %}
-      <a href="{{ url_for('security.logout') }}">Se déconnecter</a>
-      {% else %}
-      <a href="{{ url_for('security.login') }}">Connexion</a>
-      {% endif %}
-    </li>
+    {% if current_user.is_authenticated %}
+    <li><a href="{{ url_for('security.logout') }}">Se déconnecter</a></li>
+    {% else %}
+    <li><a href="{{ url_for('security.login') }}">Connexion</a></li>
+    {% endif %}
   </ul>
   {% endmacro %}
 
