@@ -28,7 +28,8 @@ def create_app():
             app.security.datastore.create_user(
                 email=admin_mail,
                 password=hash_password(app.config['ADMIN_PASSE_INITIAL']),
-                roles=['admin'])
+                roles=['admin'],
+                logo=app.config['ADMIN_LOGO'])
             db.session.commit()
 
     @app.errorhandler(404)

@@ -18,7 +18,8 @@ def index():
             current_app.security.datastore.create_user(
                 email=email,
                 password=hash_password(passe),
-                roles=['client'])
+                roles=['client'],
+                logo=logo)
             db.session.commit()
 
     return render_template(
