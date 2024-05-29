@@ -1,9 +1,13 @@
 {% macro render_field_with_errors(field) %}
 <div class="fs-div" id="{{ field.id|default('fs-field') }}">
+  {% if field.type == "BooleanField" %}
+  {{ field(**kwargs)|safe }} {{ field.label }}
+  {% else %}
   {{ field.label }} {{ field(**kwargs)|safe }}
+  {% endif %}
   {% if field.errors %}
-  <ul>
-    {% for error in field.errors %}<li class="fs-error-msg">{{ error }}</li>{% endfor %}
+  <ul class="no-bullet">
+    {% for error in field.errors %}<li class="label alert">{{ error }}</li>{% endfor %}
   </ul>
   {% endif %}
 </div>
@@ -16,8 +20,8 @@
 {% macro render_field_errors(field) %}
 <div class="fs-div" id="{{ field.id if field else 'fs-field' }}">
   {% if field and field.errors %}
-  <ul>
-    {% for error in field.errors %}<li class="fs-error-msg">{{ error }}</li>{% endfor %}
+  <ul class="no-bullet">
+    {% for error in field.errors %}<li class="label alert">{{ error }}</li>{% endfor %}
   </ul>
   {% endif %}
 </div>
@@ -26,8 +30,8 @@
 {# render WTForms (>3.0) form level errors #}
 {% macro render_form_errors(form) %}
 {% if form.form_errors %}
-<div class="fs-div" id="fs-form-errors">
-  <ul>
+<div class="fs-div callout alert" id="fs-form-errors">
+  <ul class="no-bullet">
     {% for error in form.form_errors %}<li class="fs-error-msg">{{ error }}</li>{% endfor %}
   </ul>
 </div>
