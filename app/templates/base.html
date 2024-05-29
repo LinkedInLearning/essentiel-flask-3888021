@@ -17,6 +17,7 @@
   {% macro menu_login() %}
   <ul class="menu">
     {% if current_user.is_authenticated %}
+    <li><a href="{{ url_for('client.index') }}">Mon compte</a></li>
     <li><a href="{{ url_for('security.logout') }}">Se déconnecter</a></li>
     {% else %}
     <li><a href="{{ url_for('security.login') }}">Connexion</a></li>

@@ -13,11 +13,11 @@
   <h3>Mes informations</h3>
   <div class="callout primary">
     <h5>Statut de votre compte</h5>
-    <p class="margin-left-3">Compte {% if true %}actif{% else %}inactif{% endif %}</p>
+    <p class="margin-left-3">Compte {% if current_user.active %}actif{% else %}inactif{% endif %}</p>
     <h5>Votre mail</h5>
-    <p class="margin-left-3">{# mail #}</p>
+    <p class="margin-left-3">{{ current_user.email }}</p>
     <h5>Création du compte</h5>
-    <p class="margin-left-3">{# Date de création #}</p>
+    <p class="margin-left-3">{{ current_user.create_datetime.strftime(config.PORTFOLIO_DATE_FORMAT) }}</p>
   </div>
 </div>
 {% endblock %}
