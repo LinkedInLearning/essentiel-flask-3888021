@@ -10,7 +10,7 @@
       "request": "launch",
       "module": "flask",
       "env": {
-        "FLASK_APP": "app/portfolio.py",
+        "FLASK_APP": "app",
         "FLASK_DEBUG": "1"
       },
       "args": [
