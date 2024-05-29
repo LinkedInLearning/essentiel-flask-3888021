@@ -2,12 +2,12 @@ from flask import Flask, render_template, redirect, url_for, request, session
 from app.modeles import Projet, Avis, Contact, db
 from app.forms import FormAvis
 from os import path
+from datetime import timedelta
 
 app = Flask(__name__, 
             instance_path=path.abspath('instance'), 
             instance_relative_config=True)
-app.secret_key = b'5JN_n6oRXtK2hcp0TVMF59Pzcbc'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///portfolio.db'
+app.config.from_pyfile('config.py')
 db.init_app(app)
 
 
@@ -29,7 +29,11 @@ def projet(idproj):
     if 'formavis' in request.values:
         avis = Avis()
         avis.id_projet = idproj
-        form = FormAvis(request.form, avis, meta={'csrf_context': session})
+        form = FormAvis(request.form, avis, meta={
+            'csrf_context': session,
+            'csrf_secret' : app.config['CSRF_SECRET'],
+            'csrf_time_limit': timedelta(minutes=app.config['CSRF_MINUTES'])
+        })
         if request.method == 'POST' and 'avis' in request.values and form.validate():
             form.populate_obj(avis)
             db.session.add(avis)
@@ -55,7 +59,7 @@ def admin():
         contacts = db.session
             .query(Contact)
             .order_by(Contact.creation.desc())
-            .limit(20),
+            .limit(app.config['PORTFOLIO_ADMIN_MAXCONTACT']),
         utilisateurs = []
     )
 
