@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash
-from app.modeles import Projet, Avis, Contact, db
+from app.modeles import Projet, Avis, db
 from app.forms import FormAvis
-from os import path
 from datetime import timedelta
 
 bp = Blueprint('portfolio', __name__, url_prefix='/portfolio')
@@ -45,5 +44,3 @@ def projet(idproj):
         return redirect(url_for('projet', idproj=idproj, _anchor='liste-avis'))
     projet = db.get_or_404(Projet, idproj)
     return render_template('projet.html', projet=projet, formavis=form)
-
-

@@ -1,8 +1,6 @@
-from flask import Flask, render_template, redirect, url_for, request, session, flash
-from app.modeles import Projet, Avis, Contact, db
-from app.forms import FormAvis
+from flask import Flask, render_template, request, session
+from app.modeles import db
 from os import path
-from datetime import timedelta
 from app import admin, portfolio
 
 
@@ -13,12 +11,10 @@ def create_app():
   app.config.from_pyfile('config.py')
   db.init_app(app)
 
-
   @app.errorhandler(404)
   @app.route("/oups")
   def introuvable(e=None):
       return render_template('introuvable.html')
-
 
   @app.before_request
   def cookie_pref():

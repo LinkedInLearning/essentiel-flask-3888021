@@ -1,8 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, request, session, flash
-from app.modeles import Projet, Avis, Contact, db
-from app.forms import FormAvis
-from os import path
-from datetime import timedelta
+from flask import Blueprint, render_template, redirect, url_for, flash
+from app.modeles import Avis, Contact, db
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
