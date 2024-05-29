@@ -1,13 +1,22 @@
-from flask import Blueprint, render_template, current_app, redirect, url_for, flash
-from app.modeles import Avis, Contact, db
-from flask_security import auth_required
+from flask import Blueprint, render_template, current_app, request, redirect, url_for, flash
+from app.modeles import Avis, Contact, db, Utilisateur
+from flask_security import auth_required, hash_password
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
-@bp.route("/")
+@bp.route("/", methods=['GET', 'POST'])
 @auth_required()
 def index():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        passe = request.form.get('passe')
+        if email and passe:
+            current_app.security.datastore.create_user(
+                email=email,
+                password=hash_password(passe))
+            db.session.commit()
+
     return render_template(
         'admin/index.html', 
         avis = db.session
@@ -17,7 +26,7 @@ def index():
             .query(Contact)
             .order_by(Contact.creation.desc())
             .limit(current_app.config['PORTFOLIO_ADMIN_MAXCONTACT']),
-        utilisateurs = []
+        utilisateurs = db.session.query(Utilisateur)
     )
 
 
