@@ -17,10 +17,16 @@ def introuvable(e=None):
     return render_template('introuvable.html')
 
 
+@app.before_request
+def cookie_pref():
+    if 'cookies' in request.args:
+        pref = request.args['cookies']
+        session['cookies'] = pref
+        session.permanent = pref == 'y'
+
+
 @app.route("/")
 def index():
-    if 'cookies' in request.args:
-        session['cookies'] = request.args['cookies']
     projets = db.session.query(Projet).all()
     return render_template('index.html', liste=projets)
 
