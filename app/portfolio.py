@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, flash
 from app.modeles import Projet, Avis, Contact, db
 from app.forms import FormAvis
 from os import path
@@ -38,11 +38,13 @@ def projet(idproj):
             form.populate_obj(avis)
             db.session.add(avis)
             db.session.commit()
+            flash("Merci pour votre retour ! Votre avis apparaîtra dés sa validation.", 'success')
             return redirect(url_for('projet', idproj=idproj))
     if 'idavis' in request.args:
         idavis = request.args.get('idavis')
         avis = db.get_or_404(Avis, idavis)
         avis.likes += 1
+        flash(f"Et de {avis.likes} ! Votre like sur l'avis de {avis.auteur} est comptabilisé.", 'success')
         db.session.commit()
         return redirect(url_for('projet', idproj=idproj, _anchor='liste-avis'))
     projet = db.get_or_404(Projet, idproj)
@@ -69,6 +71,7 @@ def admin_avis_ok(idavis):
     avis = db.get_or_404(Avis, idavis)
     avis.ok = True
     db.session.commit()
+    flash("Approuvé ! L'avis est maintenant en ligne.", 'success')
     return redirect(url_for('admin', _anchor='moderation'))
 
 @app.route("/admin/avis/<int:idavis>/suppr")
@@ -76,6 +79,7 @@ def admin_avis_suppr(idavis):
     avis = db.get_or_404(Avis, idavis)
     db.session.delete(avis)
     db.session.commit()
+    flash("Supprimé ! L'avis est bien supprimé.", 'success')
     return redirect(url_for('admin', _anchor='moderation'))
 
 @app.route("/admin/contact/<int:idcontact>/suppr")
@@ -83,4 +87,5 @@ def admin_contact_suppr(idcontact):
     contact = db.get_or_404(Contact, idcontact)
     db.session.delete(contact)
     db.session.commit()
+    flash("Supprimé ! La demande de contact est bien supprimée.", 'success')
     return redirect(url_for('admin', _anchor='contacts'))
