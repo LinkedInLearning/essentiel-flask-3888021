@@ -65,6 +65,7 @@
 
   <article class="grid-container">
     {% for categorie, message in get_flashed_messages(with_categories=true) %}
+    {% if categorie in ['success', 'alert'] %}
     <div class="callout {{ categorie }}" data-closable="slide-out-right">
       {% set titre, texte = message.split(' ! ') %}
       <p><strong>{{ titre }} !</strong> {{ texte }}</p>
@@ -72,6 +73,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
+    {% endif %}
     {% endfor %}
     {% block contenu %}{% endblock %}
   </article>

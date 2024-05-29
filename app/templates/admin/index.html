@@ -84,7 +84,8 @@
         <tr>
           <th>Email</th>
           <th>Rôles</th>
-          <th>Créé le</th>
+          <th>Connexions</th>
+          <th>Actuellement</th>
           <th>Statut</th>
           <th>Logo</th>
         </tr>
@@ -95,6 +96,16 @@
         <tr>
           <td nowrap>{{ u.email }}</td>
           <td nowrap>{{ u.roles|map(attribute='name')|join(', ') }}</td>
+          <td>{% if u.last_login_at %}
+            {{ u.login_count }} connexion(s)<br>
+            Dernière le {{ u.last_login_at.strftime(format_date) }}
+            {% else %}Aucune{% endif %}
+          </td>
+          <td>{% if u.current_login_at %}
+            Adresse IP : {{ u.current_login_ip }}<br>
+            Depuis le {{ u.current_login_at.strftime(format_date) }}
+            {% else %}Déconnecté-é{% endif %}
+          </td>
           <td nowrap>{{ u.create_datetime.strftime(format_date) }}</td>
           <td nowrap>
             {% if u.active %}

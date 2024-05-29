@@ -14,7 +14,13 @@
 {% endmacro %}
 
 {% macro render_field(field) %}
-<div class="fs-div" id="{{ field.id|default('fs-field') }}">{{ field(**kwargs)|safe }}</div>
+<div class="fs-div" id="{{ field.id|default('fs-field') }}">
+  {% if field.type == "SubmitField" %}
+  {{ field(class='primary button')|safe }}
+  {% else %}
+  {{ field(**kwargs)|safe }}
+  {% endif %}
+</div>
 {% endmacro %}
 
 {% macro render_field_errors(field) %}
