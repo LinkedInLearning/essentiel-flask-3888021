@@ -17,6 +17,9 @@
   {% macro menu_login() %}
   <ul class="menu">
     {% if current_user.is_authenticated %}
+    {% if 'admin' in current_user.roles %}
+    <li><a href="{{ url_for('admin.index') }}">Administration</a>
+    {% endif %}
     <li><a href="{{ url_for('client.index') }}">Mon compte</a></li>
     <li><a href="{{ url_for('security.logout') }}">Se déconnecter</a></li>
     {% else %}

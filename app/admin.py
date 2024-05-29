@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, current_app, request, redirect, url_for, flash
 from app.modeles import Avis, Contact, db, Utilisateur
-from flask_security import auth_required, hash_password
+from flask_security import roles_required, hash_password
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
 @bp.route("/", methods=['GET', 'POST'])
-@auth_required()
+@roles_required('admin')
 def index():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -14,7 +14,8 @@ def index():
         if email and passe:
             current_app.security.datastore.create_user(
                 email=email,
-                password=hash_password(passe))
+                password=hash_password(passe),
+                roles=['client'])
             db.session.commit()
 
     return render_template(
@@ -31,7 +32,7 @@ def index():
 
 
 @bp.route("/avis/<int:idavis>/ok")
-@auth_required()
+@roles_required('admin')
 def avis_ok(idavis):
     avis = db.get_or_404(Avis, idavis)
     avis.ok = True
@@ -41,7 +42,7 @@ def avis_ok(idavis):
 
 
 @bp.route("/avis/<int:idavis>/suppr")
-@auth_required()
+@roles_required('admin')
 def avis_suppr(idavis):
     avis = db.get_or_404(Avis, idavis)
     db.session.delete(avis)
@@ -51,7 +52,7 @@ def avis_suppr(idavis):
 
 
 @bp.route("/contact/<int:idcontact>/suppr")
-@auth_required()
+@roles_required('admin')
 def contact_suppr(idcontact):
     contact = db.get_or_404(Contact, idcontact)
     db.session.delete(contact)

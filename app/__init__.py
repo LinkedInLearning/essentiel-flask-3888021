@@ -20,11 +20,15 @@ def create_app():
     )
 
     with app.app_context():
+        app.security.datastore.find_or_create_role(name="admin")
+        app.security.datastore.find_or_create_role(name="client")
+        db.session.commit()
         admin_mail = app.config['ADMIN_MAIL']
         if not app.security.datastore.find_user(email=admin_mail):
             app.security.datastore.create_user(
                 email=admin_mail,
-                password=hash_password(app.config['ADMIN_PASSE_INITIAL']))
+                password=hash_password(app.config['ADMIN_PASSE_INITIAL']),
+                roles=['admin'])
             db.session.commit()
 
     @app.errorhandler(404)
