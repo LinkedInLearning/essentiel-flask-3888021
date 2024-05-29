@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, current_app, request, redirect, url_for, flash
 from app.modeles import Avis, Contact, db, Utilisateur
 from flask_security import roles_required, hash_password
+from re import search
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -11,7 +12,9 @@ def index():
     if request.method == 'POST':
         email = request.form.get('email')
         passe = request.form.get('passe')
-        if email and passe:
+        logo = request.form.get('logo')
+        if email and passe\
+        and logo and search('^img/logos/[a-z]+\.png$', logo):
             current_app.security.datastore.create_user(
                 email=email,
                 password=hash_password(passe),

@@ -11,7 +11,10 @@
 {% block contenu %}
 <div class="margin-3">
   <h3>Mes informations</h3>
-  <div class="callout primary">
+  <div class="callout primary clearfix">
+    {% if current_user.logo %}
+    <img src="{{ url_for('static', filename=current_user.logo) }}" class="thumbnail float-right">
+    {% endif %}
     <h5>Statut de votre compte</h5>
     <p class="margin-left-3">Compte {% if current_user.active %}actif{% else %}inactif{% endif %}</p>
     <h5>Votre mail</h5>

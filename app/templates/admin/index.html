@@ -70,12 +70,13 @@
   <div class="tabs-panel" id="utilisateurs">
     <form method="post">
       <div class="grid-x grid-margin-x">
-        <div class="cell medium-3">
+        <div class="cell medium-2">
           <h5>Nouvel utilisateur</h5>
         </div>
-        <div class="cell medium-3"><input name='email' type="email" placeholder="email"></div>
-        <div class="cell medium-3"><input name='passe' type="password" placeholder="Mot de passe"></div>
-        <div class="cell medium-3"><input type="submit" class="button primary" value="Créer"></div>
+        <div class="cell medium-2"><input name='email' type="email" placeholder="email"></div>
+        <div class="cell medium-2"><input name='passe' type="password" placeholder="Mot de passe"></div>
+        <div class="cell medium-2"><input name='logo' type="text" placeholder="img/logos/xxxx.png"></div>
+        <div class="cell medium-2"><input type="submit" class="button primary" value="Créer"></div>
       </div>
     </form>
     <table class="hover">
@@ -85,6 +86,7 @@
           <th>Rôles</th>
           <th>Créé le</th>
           <th>Statut</th>
+          <th>Logo</th>
         </tr>
       </thead>
       <tbody>
@@ -100,6 +102,9 @@
             {% else %}
             <span class="label secondary">inactif</span>
             {% endif %}
+          </td>
+          <td nowrap>{% if u.logo %}<img src="{{ url_for('static', filename=u.logo) }}" style="height:50px">{% else
+            %}Pas de logo{% endif %}
           </td>
         </tr>
         {% endfor %}
