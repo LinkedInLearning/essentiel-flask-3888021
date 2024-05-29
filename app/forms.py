@@ -1,7 +1,6 @@
 from wtforms import Form, StringField, TextAreaField, validators, ValidationError
 from wtforms.csrf.session import SessionCSRF
 from flask import current_app
-from datetime import timedelta
 
 
 def info_perso(form, field):
