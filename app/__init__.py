@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session
 from flask_security import Security, SQLAlchemyUserDatastore, hash_password
 from flask_babel import Babel
+from flask_mailman import Mail
 from app.modeles import db, Utilisateur, Role
 from os import path
 from app import admin, client, portfolio
@@ -14,6 +15,7 @@ def create_app():
     db.init_app(app)
 
     Babel(app)
+    # Mail(app)
 
     app.security = Security(
         app, SQLAlchemyUserDatastore(db, Utilisateur, Role)
