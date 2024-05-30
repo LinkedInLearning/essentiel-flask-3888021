@@ -1,6 +1,10 @@
 # Data
 SQLALCHEMY_DATABASE_URI = 'sqlite:///portfolio.db'
 
+# Cache
+CACHE_TYPE: "SimpleCache"
+CACHE_DEFAULT_TIMEOUT: 240
+
 # Secrets
 SECRET_KEY = b'5JN_n6oRXtK2hcp0TVMF59Pzcbc'
 
