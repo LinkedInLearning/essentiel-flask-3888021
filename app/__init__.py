@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, session
 from flask_security import Security, SQLAlchemyUserDatastore, hash_password
 from flask_babel import Babel
-from flask_mailman import Mail
 from app.modeles import db, Utilisateur, Role
 from os import path
 from app import admin, client, portfolio, api_0_1
@@ -15,7 +14,6 @@ def create_app():
     db.init_app(app)
 
     Babel(app)
-    # Mail(app)
 
     app.security = Security(
         app, SQLAlchemyUserDatastore(db, Utilisateur, Role)
@@ -51,6 +49,6 @@ def create_app():
     app.register_blueprint(portfolio.bp)
     app.register_blueprint(api_0_1.bp)
 
-    app.add_url_rule("/", endpoint="portfolio.index")
+    app.add_url_rule("/", endpoint="portfolio.index", methods=['GET', 'POST'])
 
     return app

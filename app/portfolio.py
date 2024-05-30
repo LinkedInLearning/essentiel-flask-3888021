@@ -1,13 +1,28 @@
 from flask import Blueprint, render_template, current_app, redirect, url_for, request, session, flash
-from app.modeles import Projet, Avis, db
+from markupsafe import Markup
+from app.modeles import Projet, Avis, Contact, db
 from app.forms import FormAvis
 from datetime import timedelta
 
 bp = Blueprint('portfolio', __name__, url_prefix='/portfolio')
 
 
-@bp.route("/")
+def contact(sujet):
+    mail = Markup(request.values.get('mail')).striptags()
+    message = Markup(request.values.get('message')).striptags()
+    if not mail or not sujet or not message:
+        flash("Problème ! Tous les champs du formulaire de contact sont obligatoires.", "alert")
+        return False
+    db.session.add(Contact(mail=mail, sujet=sujet, message=message))
+    db.session.commit()
+    flash("Merci ! Je vous recontacte rapidement.", "success")
+    return True
+
+
+@bp.route("/", methods=['GET', 'POST'])
 def index():
+    if request.method == 'POST' and contact(Markup(request.values.get('sujet')).striptags()):
+        return redirect(url_for('portfolio.index'))
     projets = db.session.query(Projet).all()
     return render_template('portfolio/index.html', liste=projets)
 
@@ -23,12 +38,15 @@ def projet(idproj):
             'csrf_secret' : current_app.config['CSRF_SECRET'],
             'csrf_time_limit': timedelta(minutes=current_app.config['CSRF_MINUTES'])
         })
-        if request.method == 'POST' and 'avis' in request.values and form.validate():
-            form.populate_obj(avis)
-            db.session.add(avis)
-            db.session.commit()
-            flash("Merci pour votre retour ! Votre avis apparaîtra dés sa validation.", 'success')
-            return redirect(url_for('portfolio.projet', idproj=idproj))
+        if request.method == 'POST':
+            if 'contact' in request.values and contact(projet.titre):
+                return redirect(url_for('portfolio.projet', idproj=idproj))
+            if 'avis' in request.values and form.validate():
+                form.populate_obj(avis)
+                db.session.add(avis)
+                db.session.commit()
+                flash("Merci pour votre retour ! Votre avis apparaîtra dés sa validation.", 'success')
+                return redirect(url_for('portfolio.projet', idproj=idproj))
     if 'idavis' in request.args:
         idavis = request.args.get('idavis')
         avis = db.get_or_404(Avis, idavis)
