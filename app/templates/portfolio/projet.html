@@ -56,29 +56,29 @@
   <div class="tabs-content" data-tabs-content="example-tabs">
     <div class="tabs-panel is-active" id="panel1">
       {% if formavis %}
-          <form method="post">
-            {{ formavis.csrf_token }}
-            {% if formavis.errors %}
-            <div class="callout alert">
-              <h5>Oups, quelques problèmes avec le formulaire :</h5>
-              <ul>
-                {% for entree, erreurs in formavis.errors.items() %}
-                  {% if entree == 'csrf_token' %}
-                    <li>Formulaire trop ancien, veuillez le soumettre à nouveau.</li>
-                  {% else %}
-                    {% for err in erreurs %}
-                    <li>{{ err }}</li>
-                    {% endfor %}
-                  {% endif %}
-                {% endfor %}
-              </ul>
-            </div>
+      <form method="post">
+        {{ formavis.csrf_token }}
+        {% if formavis.errors %}
+        <div class="callout alert">
+          <h5>Oups, quelques problèmes avec le formulaire :</h5>
+          <ul>
+            {% for entree, erreurs in formavis.errors.items() %}
+            {% if entree == 'csrf_token' %}
+            <li>Formulaire trop ancien, veuillez le soumettre à nouveau.</li>
+            {% else %}
+            {% for err in erreurs %}
+            <li>{{ err }}</li>
+            {% endfor %}
             {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
 
-            {{ formavis.auteur.label }} {{ formavis.auteur(placeholder="Votre nom (votre entreprise)") }}
-            {{ formavis.contenu.label }} {{ formavis.contenu(placeholder="Prestation formidable !") }}
-            <button class="button" name="avis" value="ok">Donner votre avis</button>
-          </form>
+        {{ formavis.auteur.label }} {{ formavis.auteur(placeholder="Votre nom (votre entreprise)") }}
+        {{ formavis.contenu.label }} {{ formavis.contenu(placeholder="Prestation formidable !") }}
+        <button class="button" name="avis" value="ok">Donner votre avis</button>
+      </form>
       {% else %}
       <p><em>Vous aussi <a href="?formavis">donnez votre avis</a>...</em></p>
       {% endif %}
@@ -108,4 +108,26 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+  const url_api = "/v0.1/projets/1/avis"
+  const periode = 2000
+
+  $(document).ready(() => {
+    setInterval(() => {
+      $.get(url_api, data => {
+        html = ''
+        for (var avis of data.sort((a, b) => b.likes - a.likes)) {
+          html += `<div><h6>${avis.auteur} -\
+		        <a href="?idavis=${avis.id}" class="primary"><i class="fi-like large"></i>\
+              ${avis.likes} like${avis.likes > 1 ? 's' : ''}\
+            </a></h6><blockquote>${avis.contenu}</blockquote></div>`
+        }
+        $('#liste-avis').html(html)
+      });
+    }, periode);
+  });
+</script>
 {% endblock %}

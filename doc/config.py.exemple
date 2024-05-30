@@ -14,6 +14,8 @@ PORTFOLIO_ADMIN_MAXCONTACT = 20
 
 PORTFOLIO_INFO_PERSO = ['@', 'http', 'adresse', 'téléphone', 'tel', 'tél']
 
+PORTFOLIO_LIKES_PERIODE = 2000
+
 # Flask security
 
 SECURITY_PASSWORD_SALT='xN2u_h0hvNWjs6-wK_OrmXWcMjM'
