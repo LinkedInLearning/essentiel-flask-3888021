@@ -12,6 +12,7 @@ def create_app():
                 instance_path=path.abspath('instance'), 
                 instance_relative_config=True)
     app.config.from_pyfile('config.py')
+    app.logger.setLevel(app.config['PORTFOLIO_NIVEAU_LOG'])
     db.init_app(app)
 
     Babel(app)
@@ -20,6 +21,7 @@ def create_app():
         app, SQLAlchemyUserDatastore(db, Utilisateur, Role)
     )
     JWTManager(app)
+    app.logger.info('Sécurité ok')
 
     with app.app_context():
         app.security.datastore.find_or_create_role(name="admin")
@@ -52,5 +54,14 @@ def create_app():
     app.register_blueprint(api_0_1.bp)
 
     app.add_url_rule("/", endpoint="portfolio.index", methods=['GET', 'POST'])
+
+    def mdp(email, passe):
+        utilisateur = app.security.datastore.find_user(email=email)
+        if not utilisateur:
+            print("Utilisateur inconnu.")
+            return -1
+        utilisateur.password = hash_password(passe)
+        db.session.commit()
+        print("Mot de passe modifié avec succès.")
 
     return app
