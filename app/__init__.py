@@ -4,7 +4,7 @@ from flask_babel import Babel
 from flask_mailman import Mail
 from app.modeles import db, Utilisateur, Role
 from os import path
-from app import admin, client, portfolio
+from app import admin, client, portfolio, api_0_1
 
 
 def create_app():
@@ -49,6 +49,7 @@ def create_app():
     app.register_blueprint(admin.bp)
     app.register_blueprint(client.bp)
     app.register_blueprint(portfolio.bp)
+    app.register_blueprint(api_0_1.bp)
 
     app.add_url_rule("/", endpoint="portfolio.index")
 
