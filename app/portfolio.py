@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, current_app, redirect, url_for, re
 from markupsafe import Markup
 from app.modeles import Projet, Avis, Contact, db
 from app.forms import FormAvis
+from app.services import cache
 from datetime import timedelta
 
 bp = Blueprint('portfolio', __name__, url_prefix='/portfolio')
@@ -19,6 +20,7 @@ def contact(sujet):
     return True
 
 
+@cache.cached()
 @bp.route("/", methods=['GET', 'POST'])
 def index():
     if request.method == 'POST' and contact(Markup(request.values.get('sujet')).striptags()):
