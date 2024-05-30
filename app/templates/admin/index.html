@@ -139,7 +139,10 @@
     setInterval(() => {
       $.ajax({
         url: url_api,
-        type: 'GET'
+        type: 'GET',
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', "Bearer {{ jwt }}");
+        }
       }).done(data => {
         html = ''
         for (var c of data.sort((a, b) => b.creation.localeCompare(a.creation))) {

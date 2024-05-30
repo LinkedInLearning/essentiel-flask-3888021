@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, abort
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from app.modeles import db, Projet, Contact
 
 bp = Blueprint('api_0_1', __name__, url_prefix='/v0.1')
@@ -19,6 +20,10 @@ def projets_avis_get(idprojet):
 
 
 @bp.get('/contacts')
+@jwt_required()
 def contacts_get():
+  identite = get_jwt_identity()
+  if 'admin' not in identite['roles']:
+     abort(403)
   contacts = db.session.query(Contact)
   return [c.dto() for c in contacts]

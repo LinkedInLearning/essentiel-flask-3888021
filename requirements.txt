@@ -12,6 +12,7 @@ dnspython==2.6.1
 email_validator==2.1.1
 Flask==3.0.3
 flask-babel==4.0.0
+Flask-JWT-Extended==4.6.0
 Flask-Login==0.6.3
 flask-mailman==1.1.0
 Flask-Principal==0.4.0
@@ -28,6 +29,7 @@ MarkupSafe==2.1.5
 passlib==1.7.4
 phonenumberslite==8.13.37
 pycparser==2.22
+PyJWT==2.8.0
 pyOpenSSL==24.1.0
 pypng==0.20220715.0
 pytz==2024.1

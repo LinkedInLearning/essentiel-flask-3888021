@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session
 from flask_security import Security, SQLAlchemyUserDatastore, hash_password
 from flask_babel import Babel
+from flask_jwt_extended import JWTManager
 from app.modeles import db, Utilisateur, Role
 from os import path
 from app import admin, client, portfolio, api_0_1
@@ -18,6 +19,7 @@ def create_app():
     app.security = Security(
         app, SQLAlchemyUserDatastore(db, Utilisateur, Role)
     )
+    JWTManager(app)
 
     with app.app_context():
         app.security.datastore.find_or_create_role(name="admin")
