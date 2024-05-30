@@ -5,6 +5,8 @@ from flask_jwt_extended import JWTManager
 from app.modeles import db, Utilisateur, Role
 from os import path
 from app import admin, client, portfolio, api_0_1
+from flask.cli import with_appcontext
+import click
 
 
 def create_app():
@@ -55,6 +57,10 @@ def create_app():
 
     app.add_url_rule("/", endpoint="portfolio.index", methods=['GET', 'POST'])
 
+    @app.cli.command(help="Modifie un mot de passe utilisateur.")
+    @click.argument('email')
+    @click.argument('passe')
+    @with_appcontext
     def mdp(email, passe):
         utilisateur = app.security.datastore.find_user(email=email)
         if not utilisateur:
