@@ -34,9 +34,11 @@
           <td nowrap>{{ a.auteur }}</td>
           <td>{{ a.contenu }}</td>
           <td nowrap>
-            <a href="{{ url_for('admin.avis_ok', idavis=a.id) }}" class="button success small"><i class="fi-check"></i> Approuver</a>
+            <a href="{{ url_for('admin.avis_ok', idavis=a.id) }}" class="button success small"><i class="fi-check"></i>
+              Approuver</a>
             <a href="#" class="button warning small"><i class="fi-pencil"></i> Éditer</a>
-            <a href="{{ url_for('admin.avis_suppr', idavis=a.id) }}" class="button alert small"><i class="fi-x"></i> Rejeter</a>
+            <a href="{{ url_for('admin.avis_suppr', idavis=a.id) }}" class="button alert small"><i class="fi-x"></i>
+              Rejeter</a>
           </td>
         </tr>
         {% endfor %}
@@ -54,14 +56,15 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="liste-contacts">
         {% for c in contacts %}
         <tr>
           <td nowrap>{{ c.creation.strftime(format_date) }}</td>
           <td nowrap>{{ c.mail }}</td>
           <td nowrap>{{ c.sujet }}</td>
           <td>{{ c.message }}</td>
-          <td nowrap><a href="{{ url_for('admin.contact_suppr', idcontact=a.id) }}" class="button alert small"><i class="fi-x"></i> Suppr.</a></td>
+          <td nowrap><a href="{{ url_for('admin.contact_suppr', idcontact=c.id) }}" class="button alert small"><i
+                class="fi-x"></i> Suppr.</a></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -124,4 +127,33 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+  const url_api = "{{ url_for('api_0_1.contacts_get', ) }}"
+  const url_suppr_tpl = "{{ url_for('admin.contact_suppr', idcontact=98765432) }}"
+  const periode = {{ config.PORTFOLIO_LIKES_PERIODE }}
+
+  $(document).ready(() => {
+    setInterval(() => {
+      $.ajax({
+        url: url_api,
+        type: 'GET'
+      }).done(data => {
+        html = ''
+        for (var c of data.sort((a, b) => b.creation.localeCompare(a.creation))) {
+          html += `<tr>\
+          <td nowrap>${c.creation}</td>
+          <td nowrap>${c.mail}</td>
+          <td nowrap>${c.sujet}</td>
+          <td>${c.message}</td>
+          <td nowrap><a href="${url_suppr_tpl.replace('98765432', c.id)}" class="button alert small"><i class="fi-x"></i> Suppr.</a></td>
+        </tr>`
+        }
+        $('#liste-contacts').html(html)
+      });
+    }, periode);
+  });
+</script>
 {% endblock %}

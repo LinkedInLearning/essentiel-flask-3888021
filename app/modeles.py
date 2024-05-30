@@ -215,6 +215,12 @@ class Contact(db.Model):
   sujet: Mapped[str] = mapped_column(String(20))
   message: Mapped[str] = mapped_column(Text())
 
+  def dto(self):
+    return {
+        attr: getattr(self, attr)
+        for attr in ['id', 'creation', 'mail', 'sujet', 'message']
+    }
+
 
 class Reference(db.Model):
   __tablename__ = 'references'

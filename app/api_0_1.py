@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from app.modeles import db, Projet
+from app.modeles import db, Projet, Contact
 
 bp = Blueprint('api_0_1', __name__, url_prefix='/v0.1')
 
@@ -16,3 +16,9 @@ def erreur(e):
 def projets_avis_get(idprojet):
   projet = db.get_or_404(Projet, idprojet)
   return [a.dto() for a in projet.avis if a.ok]
+
+
+@bp.get('/contacts')
+def contacts_get():
+  contacts = db.session.query(Contact)
+  return [c.dto() for c in contacts]
