@@ -112,8 +112,8 @@
 
 {% block script %}
 <script>
-  const url_api = "/v0.1/projets/1/avis"
-  const periode = 2000
+  const url_api = "{{ url_for('api_0_1.projets_avis_get', idprojet=projet.id) }}"
+  const periode = {{ config.PORTFOLIO_LIKES_PERIODE }}
 
   $(document).ready(() => {
     setInterval(() => {
