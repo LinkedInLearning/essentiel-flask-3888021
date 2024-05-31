@@ -12,3 +12,4 @@ jobs:
         uses: planetoftheweb/copy-to-branches@v1.2
         env:
           key: main
+          files: LICENSE NOTICE README.md CONTRIBUTING.md .vscode/settings.json .devcontainer/devcontainer.json .github/CODEOWNERS .github/ISSUE_TEMPLATE.MD .github/PULL_REQUEST_TEMPLATE.MD .github/workflows/main.yml Dockerfile setup.sh
