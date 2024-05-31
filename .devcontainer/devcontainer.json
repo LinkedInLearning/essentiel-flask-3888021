@@ -6,14 +6,18 @@
       "VARIANT": "3.11" // Set Python version here
     }
   },
-  "extensions": [
-    "GitHub.github-vscode-theme",
-    "ms-python.python",
-    "ms-python.vscode-pylance",
-    "jebbs.plantuml",
-    "qwtel.sqlite-viewer",
-    "arjun.swagger-viewer"
-  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.github-vscode-theme",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "jebbs.plantuml",
+        "alexcvzz.vscode-sqlite",
+        "arjun.swagger-viewer"
+      ]
+    }
+  },
   "portsAttributes": {
     "5000": {
       "label": "Application",
