@@ -11,6 +11,6 @@ if [ ! -d "instance" ]; then
 fi
 source .venv/bin/activate
 pip install -r requirements.txt
-if [ ! -d "alembic" ]; then
+if [ -d "alembic" ]; then
   alembic upgrade head
 fi
