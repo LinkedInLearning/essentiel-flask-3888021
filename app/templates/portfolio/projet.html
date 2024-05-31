@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block titre %}- {{ projet.titre }} {% endblock %}
+
+{% block breadcrumb %}
+<li>Détail</li>
+<li>
+  <span class="show-for-sr">Actuel : </span> {{ projet.titre }}
+</li>
+{% endblock %}
+
+{% block contenu %}
+<div class="grid-x grid-margin-x">
+  <div class="medium-6 cell">
+    <img class="thumbnail" src="{{ url_for('static', filename=projet.image) }}" width="650px">
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x small-up-4">
+        <div class="cell"><img class="thumbnail" src="{{ url_for('static', filename='img/site00.png') }}"></div>
+        <div class="cell"><img class="thumbnail" src="{{ url_for('static', filename='img/site01.png') }}"></div>
+        <div class="cell"><img class="thumbnail" src="{{ url_for('static', filename='img/site02.png') }}"></div>
+        <div class="cell"><img class="thumbnail" src="{{ url_for('static', filename='img/site03.png') }}"></div>
+      </div>
+    </div>
+  </div>
+  <div class="medium-6 large-5 cell">
+    <h3>{{ projet.titre }}</h3>
+    <p>{{ projet.description }}</p>
+    <form method="post">
+      <div class="grid-x">
+        <div class="small-3 cell">
+          <label for="mail" class="middle">Votre email :</label>
+        </div>
+        <div class="small-9 cell">
+          <input type="email" name="mail" id="mail" placeholder="Votre e-mail" value="" required>
+        </div>
+      </div>
+
+      <textarea name="message" placeholder="J'ai besoin de..." required></textarea>
+      <input type="submit" name="contact" class="button large expanded">
+    </form>
+
+    <div class="small secondary expanded button-group">
+      <a class="button">LinkedIn</a>
+      <a class="button">GitHub</a>
+      <a class="button">Skype</a>
+    </div>
+  </div>
+</div>
+
+<div class="">
+  <hr>
+  <ul class="tabs" data-tabs id="example-tabs">
+    <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Avis</a></li>
+    <li class="tabs-title"><a href="#panel2">Références</a></li>
+  </ul>
+  <div class="tabs-content" data-tabs-content="example-tabs">
+    <div class="tabs-panel is-active" id="panel1">
+      {% if formavis %}
+      <form method="post">
+        {{ formavis.csrf_token }}
+        {% if formavis.errors %}
+        <div class="callout alert">
+          <h5>Oups, quelques problèmes avec le formulaire :</h5>
+          <ul>
+            {% for entree, erreurs in formavis.errors.items() %}
+            {% if entree == 'csrf_token' %}
+            <li>Formulaire trop ancien, veuillez le soumettre à nouveau.</li>
+            {% else %}
+            {% for err in erreurs %}
+            <li>{{ err }}</li>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {{ formavis.auteur.label }} {{ formavis.auteur(placeholder="Votre nom (votre entreprise)") }}
+        {{ formavis.contenu.label }} {{ formavis.contenu(placeholder="Prestation formidable !") }}
+        <button class="button" name="avis" value="ok">Donner votre avis</button>
+      </form>
+      {% else %}
+      <p><em>Vous aussi <a href="?formavis">donnez votre avis</a>...</em></p>
+      {% endif %}
+      <div id="liste-avis">
+        {% for a in projet.avis|selectattr('ok')|sort(attribute='likes', reverse=true) %}
+        <div>
+          <h6>{{ a.auteur }} -
+            <a href="?idavis={{ a.id }}" class="primary"><i class="fi-like large"></i>
+              {{ a.likes }} like{% if a.likes>1 %}s{% endif %}
+            </a>
+          </h6>
+          <blockquote>{{ a.contenu }}</blockquote>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+    <div class="tabs-panel" id="panel2">
+      <div class="grid-x grid-margin-x medium-up-3 large-up-5">
+        {% for r in projet.refs %}
+        <div class="cell">
+          <img class="thumbnail" src="{{ url_for('static', filename=r.logo) }}" title="{{ r.entreprise }}"
+            alt="Logo de {{ r.entreprise }}">
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  const url_api = "{{ url_for('api_0_1.projets_avis_get', idprojet=projet.id) }}"
+  const periode = {{ config.PORTFOLIO_LIKES_PERIODE }}
+
+  $(document).ready(() => {
+    setInterval(() => {
+      $.get(url_api, data => {
+        html = ''
+        for (var avis of data.sort((a, b) => b.likes - a.likes)) {
+          html += `<div><h6>${avis.auteur} -\
+		        <a href="?idavis=${avis.id}" class="primary"><i class="fi-like large"></i>\
+              ${avis.likes} like${avis.likes > 1 ? 's' : ''}\
+            </a></h6><blockquote>${avis.contenu}</blockquote></div>`
+        }
+        $('#liste-avis').html(html)
+      });
+    }, periode);
+  });
+</script>
+{% endblock %}

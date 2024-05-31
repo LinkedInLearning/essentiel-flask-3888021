@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block page %}
+  <div class="off-canvas position-left reveal-for-large" id="my-info" data-off-canvas>
+    <div class="grid-y grid-padding-x" style="height: 100%;">
+      <br>
+      <div class="cell shrink">
+        <img class="thumbnail" style="border-radius:50%" src="{{ url_for('static', filename='img/profil.png') }}">
+      </div>
+      <div class="cell auto">
+        <h5>Alice BOB</h5>
+        <p>Je propose une solution créative pour tous vos besoins sur support web en Python. Mes points forts : écoute,
+          conseil, savoir-faire, respect des délais.</p>
+        {{ menu_login() }}
+      </div>
+    </div>
+  </div>
+
+  <div class="off-canvas-content" data-off-canvas-content>
+    <div class="title-bar hide-for-large">
+      <div class="title-bar-left">
+        <button class="menu-icon" type="button" data-toggle="my-info"></button>
+        <span class="title-bar-title">Alice BOB</span>
+      </div>
+    </div>
+
+
+    <div class="callout primary">
+      <article class="grid-container">
+        <div>
+          <h1>Mon portfolio de dév. Web en Python</h1>
+          <p class="lead">Pour votre projet, vous cherchez une personne réactive qui comprenne votre métier et
+            l'accompagne avec une approche personnalisée et professionnelle : Vous êtes au bon endroit !</p>
+          {% set nbprojets = liste|length %}
+            <h4>Mes {{ nbprojets }} projet{% if nbprojets>1 %}s{% endif %} :</h4>
+        </div>
+      </article>
+    </div>
+
+
+    <article class="grid-container">
+      <div class="grid-x grid-margin-x small-up-1 medium-up-2 large-up-3">
+        {% for p in liste %}
+        <div class="cell">
+          <h5>{{ p.titre }}</h5>
+          <a href="{{ url_for('portfolio.projet', idproj=p.id) }}">
+            <img class="thumbnail" src="{{ url_for('static', filename=p.image) }}">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      <hr>
+      <div class="grid-x grid-margin-x">
+        <div class="medium-6 cell">
+          <h3>Contactez-moi</h3>
+          <p>
+            Je reviens vers vous rapidement, pour étudier gratuitement votre projet et vous proposer une offre
+            détaillée qui réponde à vos attentes.
+          </p>
+          <p>Retrouvez-moi également sur :</p>
+          <ul class="menu">
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Skype</a></li>
+          </ul>
+        </div>
+        <div class="medium-6 cell">
+          <form method="post">
+            <label>Email
+              <input name="mail" type="email" placeholder="vous@boite.com" value="" required>
+            </label>
+            <label>
+              Sujet
+              <select name="sujet" required>
+                <option disabled selected value>-- choisir un sujet --</option>
+                <option>Information</option>
+                <option>Mission</option>
+                <option>Partenariat</option>
+              </select>
+            </label>
+            <label>
+              Message
+              <textarea name="message" placeholder="J'ai besoin de..." required></textarea>
+            </label>
+            <input type="submit" class="button expanded" value="Envoyer">
+          </form>
+        </div>
+      </div>
+    </article>
+  </div>
+{% endblock %}

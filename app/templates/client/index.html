@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block titre %}- Mon compte{% endblock %}
+
+{% block breadcrumb %}
+<li>
+  <span class="show-for-sr">Actuel : </span> Mon compte
+</li>
+{% endblock %}
+
+{% block contenu %}
+<div class="margin-3">
+  <h3>Mes informations</h3>
+  <div class="callout primary clearfix">
+    {% if current_user.logo %}
+    <img src="{{ url_for('static', filename=current_user.logo) }}" class="thumbnail float-right">
+    {% endif %}
+    <h5>Statut de votre compte</h5>
+    <p class="margin-left-3">Compte {% if current_user.active %}actif{% else %}inactif{% endif %}</p>
+    <h5>Votre mail</h5>
+    <p class="margin-left-3">{{ current_user.email }}</p>
+    <h5>Création du compte</h5>
+    <p class="margin-left-3">{{ current_user.create_datetime.strftime(config.PORTFOLIO_DATE_FORMAT) }}</p>
+    <p><a href='{{config.SECURITY_URL_PREFIX}}{{config.SECURITY_CHANGE_URL}}' class="button secondary">Changer de mot de
+        passe</a></p>
+  </div>
+</div>
+{% endblock %}

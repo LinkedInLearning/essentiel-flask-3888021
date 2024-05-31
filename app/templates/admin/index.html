@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% set format_date = config.PORTFOLIO_DATE_FORMAT %}
+
+{% block titre %}- Administration{% endblock %}
+
+{% block breadcrumb %}
+<li>
+  <span class="show-for-sr">Actuel : </span> Administration
+</li>
+{% endblock %}
+
+{% block contenu %}
+<ul class="tabs" data-tabs id="onglets">
+  <li class="tabs-title is-active"><a href="#moderation" aria-selected="true">Avis</a></li>
+  <li class="tabs-title"><a data-tabs-target="contacts" href="#contacts">Contacts</a></li>
+  <li class="tabs-title"><a data-tabs-target="utilisateurs" href="#utilisateurs">Utilisateurs</a></li>
+</ul>
+<div class="tabs-content" data-tabs-content="onglets">
+  <div class="tabs-panel is-active" id="moderation">
+    <table class="hover">
+      <thead>
+        <tr>
+          <th>Soumis le</th>
+          <th>Par</th>
+          <th width="100%">Contenu</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in avis %}
+        <tr>
+          <td nowrap>{{ a.creation.strftime(format_date) }}</td>
+          <td nowrap>{{ a.auteur }}</td>
+          <td>{{ a.contenu }}</td>
+          <td nowrap>
+            <a href="{{ url_for('admin.avis_ok', idavis=a.id) }}" class="button success small"><i class="fi-check"></i>
+              Approuver</a>
+            <a href="#" class="button warning small"><i class="fi-pencil"></i> Éditer</a>
+            <a href="{{ url_for('admin.avis_suppr', idavis=a.id) }}" class="button alert small"><i class="fi-x"></i>
+              Rejeter</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="tabs-panel" id="contacts">
+    <table class="hover">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Email</th>
+          <th>Sujet</th>
+          <th width="100%">Texte</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="liste-contacts">
+        {% for c in contacts %}
+        <tr>
+          <td nowrap>{{ c.creation.strftime(format_date) }}</td>
+          <td nowrap>{{ c.mail }}</td>
+          <td nowrap>{{ c.sujet }}</td>
+          <td>{{ c.message }}</td>
+          <td nowrap><a href="{{ url_for('admin.contact_suppr', idcontact=c.id) }}" class="button alert small"><i
+                class="fi-x"></i> Suppr.</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="tabs-panel" id="utilisateurs">
+    <form method="post">
+      <div class="grid-x grid-margin-x">
+        <div class="cell medium-2">
+          <h5>Nouvel utilisateur</h5>
+        </div>
+        <div class="cell medium-2"><input name='email' type="email" placeholder="email"></div>
+        <div class="cell medium-2"><input name='passe' type="password" placeholder="Mot de passe"></div>
+        <div class="cell medium-2"><input name='logo' type="text" placeholder="img/logos/xxxx.png"></div>
+        <div class="cell medium-2"><input type="submit" class="button primary" value="Créer"></div>
+      </div>
+    </form>
+    <table class="hover">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Rôles</th>
+          <th>Connexions</th>
+          <th>Actuellement</th>
+          <th>Statut</th>
+          <th>Logo</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for u in utilisateurs %}
+        <tr>
+          <td nowrap>{{ u.email }}</td>
+          <td nowrap>{{ u.roles|map(attribute='name')|join(', ') }}</td>
+          <td>{% if u.last_login_at %}
+            {{ u.login_count }} connexion(s)<br>
+            Dernière le {{ u.last_login_at.strftime(format_date) }}
+            {% else %}Aucune{% endif %}
+          </td>
+          <td>{% if u.current_login_at %}
+            Adresse IP : {{ u.current_login_ip }}<br>
+            Depuis le {{ u.current_login_at.strftime(format_date) }}
+            {% else %}Déconnecté-é{% endif %}
+          </td>
+          <td nowrap>{{ u.create_datetime.strftime(format_date) }}</td>
+          <td nowrap>
+            {% if u.active %}
+            <span class="label success">actif</span>
+            {% else %}
+            <span class="label secondary">inactif</span>
+            {% endif %}
+          </td>
+          <td nowrap>{% if u.logo %}<img src="{{ url_for('static', filename=u.logo) }}" style="height:50px">{% else
+            %}Pas de logo{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+  const url_api = "{{ url_for('api_0_1.contacts_get', ) }}"
+  const url_suppr_tpl = "{{ url_for('admin.contact_suppr', idcontact=98765432) }}"
+  const periode = {{ config.PORTFOLIO_LIKES_PERIODE }}
+
+  $(document).ready(() => {
+    setInterval(() => {
+      $.ajax({
+        url: url_api,
+        type: 'GET',
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', "Bearer {{ jwt }}");
+        }
+      }).done(data => {
+        html = ''
+        for (var c of data.sort((a, b) => b.creation.localeCompare(a.creation))) {
+          html += `<tr>\
+          <td nowrap>${c.creation}</td>
+          <td nowrap>${c.mail}</td>
+          <td nowrap>${c.sujet}</td>
+          <td>${c.message}</td>
+          <td nowrap><a href="${url_suppr_tpl.replace('98765432', c.id)}" class="button alert small"><i class="fi-x"></i> Suppr.</a></td>
+        </tr>`
+        }
+        $('#liste-contacts').html(html)
+      });
+    }, periode);
+  });
+</script>
+{% endblock %}

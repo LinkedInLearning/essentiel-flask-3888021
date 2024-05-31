@@ -1,0 +1,581 @@
+openapi: 3.0.0
+info:
+  title: API Portfolio d'Alice BOB
+  version: 0.1.0
+servers:
+  - url: http://localhost:5000/v0.1
+    description: Serveur de développement
+tags:
+  - name: contact
+    description: Formulaire de contact
+  - name: portfolio
+    description: Projets réalisés, les références et avis client 
+paths:
+  /contacts:
+    get:
+      tags:
+        - "contact"
+      summary: Obtient la liste des demandes de contact (restreint)
+      responses:
+        '200':
+          description: Liste des demandes de contact
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur
+    post:
+      tags: ["contact"]
+      summary: Ajoute une nouvelle demande de contact
+      requestBody:
+        description: Nouveau contact à ajouter
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '201':
+          description: Contact créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+  /contacts/{id}:
+    get:
+      tags: ["contact"]
+      summary: Obtient une demande de contact par son ID (restreint)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID du contact à Obtient
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Contact récupéré
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur
+        '404':
+          description: Contact introuvable
+    put:
+      tags: ["contact"]
+      summary: Modifie une demande de contact (restreint)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID du contact à mettre à jour
+          schema:
+            type: integer
+      requestBody:
+        description: Contact mis à jour
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '200':
+          description: Contact mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur
+        '404':
+          description: Contact introuvable
+    delete:
+      tags: ["contact"]
+      summary: Supprime une demande contact (restreint)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID du contact à supprimer
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Contact supprimé
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur
+        '404':
+          description: Contact introuvable
+  /projets:
+    get:
+      tags: ["portfolio"]
+      summary: Obtient la liste des projets
+      responses:
+        '200':
+          description: Liste des projets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Projet'
+    post:
+      tags: ["portfolio"]
+      summary: Ajoute un nouveau projet (restreint)
+      requestBody:
+        description: Nouveau projet à ajouter
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Projet'
+      responses:
+        '201':
+          description: Projet créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projet'
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur
+  /projets/{id}:
+    get:
+      tags: ["portfolio"]
+      summary: Obtient un projet par son ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID du projet à Obtient
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Projet récupéré
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projet'
+        '404':
+          description: Projet introuvable
+    put:
+      tags: ["portfolio"]
+      summary: Modifie un projet (restreint)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID du projet à mettre à jour
+          schema:
+            type: integer
+      requestBody:
+        description: Projet mis à jour
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Projet'
+      responses:
+        '200':
+          description: Projet mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projet'
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur
+        '404':
+          description: Projet introuvable
+    delete:
+      tags: ["portfolio"]
+      summary: Supprime un projet et ses avis associés (restreint)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID du projet à supprimer
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Projet supprimé
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur
+        '404':
+          description: Projet introuvable
+  /projets/{id}/avis:
+    get:
+      tags: ["portfolio"]
+      summary: Obtient la liste partielle ou complète, selon les droits, des avis d'un projet
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID du projet
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des avis approuvés (public) ou complète (administrateur)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Avis'
+        '404':
+          description: Projet introuvable
+    post:
+      tags: ["portfolio"]
+      summary: Ajoute un nouvel avis au projet
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID du projet concerné par l'avis
+          schema:
+            type: integer
+      requestBody:
+        description: Nouvel avis à ajouter
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Avis'
+      responses:
+        '201':
+          description: Avis ajouté
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avis'
+        '404':
+          description: Projet introuvable
+  /projets/{id}/refs:
+    get:
+      tags: ["portfolio"]
+      summary: Obtient la liste partielle ou complète, selon les droits, des références clients d'un projet
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID du projet
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des références clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reference'
+        '404':
+          description: Projet introuvable
+    post:
+      tags: ["portfolio"]
+      summary: Ajoute un nouvel avis au projet
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID du projet concerné par l'avis
+          schema:
+            type: integer
+      requestBody:
+        description: Référence à ajouter
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reference'
+      responses:
+        '201':
+          description: Référence client ajoutée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reference'
+        '404':
+          description: Projet introuvable
+  /avis/{id}:
+    get:
+      tags: ["portfolio"]
+      summary: Obtient un avis par son ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID de l'avis à Obtient
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Avis récupéré
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avis'
+        '404':
+          description: Avis introuvable
+    put:
+      tags: ["portfolio"]
+      summary: Modifie un avis
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID de l'avis à mettre à jour
+          schema:
+            type: integer
+      requestBody:
+        description: |
+          Avis mis à jour. Selon le rôle :
+          - le public ne peut qu'augmenter de 1 le nombre de likes
+          - l'auteur peut modifier le contenu seulement
+          - l'administrateur peut tout modifier
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Avis'
+      responses:
+        '200':
+          description: Avis mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avis'
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur n'a pas les droits suffisants pour effectuer la modification
+        '404':
+          description: Avis introuvable
+    delete:
+      tags: ["portfolio"]
+      summary: Supprime un avis (restreint)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID de l'avis à supprimer
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Avis supprimé
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur ou auteur
+        '404':
+          description: Avis introuvable
+  /references:
+    get:
+      tags: ["portfolio"]
+      summary: Obtient la liste des références clients
+      responses:
+        '200':
+          description: Liste des références clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reference'
+    post:
+      tags: ["portfolio"]
+      summary: Ajoute une nouvelle référence client (restreint)
+      requestBody:
+        description: Nouvelle référence à ajouter
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reference'
+      responses:
+        '201':
+          description: Référence créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reference'
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur
+  /references/{id}:
+    get:
+      tags: ["portfolio"]
+      summary: Obtient une référence par son ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID de la référence à Obtient
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Référence récupérée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reference'
+        '404':
+          description: Référence introuvable
+    put:
+      tags: ["portfolio"]
+      summary: Modifie une référence client (restreint)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID de la référence à mettre à jour
+          schema:
+            type: integer
+      requestBody:
+        description: Référence mise à jour
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reference'
+      responses:
+        '200':
+          description: Référence mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reference'
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur
+        '404':
+          description: Référence introuvable
+    delete:
+      tags: ["portfolio"]
+      summary: Supprime une référence client (restreint)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID de la référence à supprimer
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Référence supprimée
+        '401':
+          description: Jeton d'authentification non valide
+        '403':
+          description: L'utilisateur doit être administrateur
+        '404':
+          description: Référence introuvable
+components:
+  schemas:
+    Contact:
+      description: Demande de contact laissée sur le site.
+      type: object
+      properties:
+        id:
+          description: Clé du contact
+          type: integer
+          readOnly: true
+        creation:
+          description: Date de création de la demande de contact
+          type: string
+          format: date-time
+          readOnly: true
+        mail:
+          description: Mail laissé lors de la demande de contact
+          type: string
+        sujet:
+          description: Sujet de la prise de contact
+          type: string
+          maxLength: 20
+        message:
+          description: Message laissé par le contact
+          type: string
+    Projet:
+      description: Projet réalisé
+      type: object
+      properties:
+        id:
+          description: Clé du projet
+          type: integer
+          readOnly: true
+        titre:
+          description: Titre du projet
+          type: string
+          maxLength: 50
+        description:
+          description: Description du projet
+          type: string
+          nullable: true
+        image:
+          description: Fichier image représentant le projet
+          type: string
+    Avis:
+      description: Témoignage client
+      type: object
+      properties:
+        id:
+          description: Clé de l'avis
+          type: integer
+          readOnly: true
+        creation:
+          description: Date du témoignage
+          type: string
+          format: date-time
+          readOnly: true
+        id_projet:
+          description: ID du projet concerné par l'avis
+          type: integer
+          readOnly: true
+        contenu:
+          description: Contenu du témoignage
+          type: string
+        ok:
+          description: Validé par le modérateur
+          type: boolean
+          default: false
+        likes:
+          description: Nombre de likes sur cet avis
+          type: integer
+          default: 0
+        auteur:
+          description: Nom laissé par l'auteur de l'avis
+          type: string
+          maxLength: 50
+          nullable: true
+    Reference:
+      description: Entreprise référence pour une ou plusieurs réalisations
+      type: object
+      properties:
+        id:
+          description: Clé de la référence
+          type: integer
+          readOnly: true
+        entreprise:
+          description: Nom de l'entreprise
+          type: string
+          maxLength: 50
+        logo:
+          description: Fichier d'image du logo
+          type: string
+          maxLength: 255
+    

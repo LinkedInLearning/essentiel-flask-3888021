@@ -1,0 +1,100 @@
+<!doctype html>
+<html class="no-js" lang="fr">
+{% set accueil = 'portfolio.index' %}
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alice BOB, développement web en python {% block titre %}{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation-prototype.min.css">
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet'
+    type='text/css'>
+</head>
+
+<body>
+  {% macro menu_login() %}
+  <ul class="menu">
+    {% if current_user.is_authenticated %}
+    {% if 'admin' in current_user.roles %}
+    <li><a href="{{ url_for('admin.index') }}">Administration</a>
+    {% endif %}
+    <li><a href="{{ url_for('client.index') }}">Mon compte</a></li>
+    <li><a href="{{ url_for('security.logout') }}">Se déconnecter</a></li>
+    {% else %}
+    <li><a href="{{ url_for('security.login') }}">Connexion</a></li>
+    {% endif %}
+  </ul>
+  {% endmacro %}
+
+  {% if not session['cookies'] %}
+  <div class="reveal" id="boite-cookies" data-reveal>
+    <h3>Information sur les cookies</h3>
+    <p>Des cookies sont utilisés sur ce site pour vous proposer une expérience utilisateur optimale.</p>
+    <div>
+      <a class="primary button" href="?cookies=y">Accepter</a> 
+      <a class="secondary button" href="?cookies=n">Refuser</a>
+    </div>
+  </div>
+  {% endif %}
+
+  {% block page %}
+  <!-- Start Top Bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text">Alice BOB</li>
+        <li><a href="{{ url_for(accueil) }}">Accueil</a></li>
+      </ul>
+    </div>
+    <div class="top-bar-right">
+      {{ menu_login() }}
+    </div>
+  </div>
+  <!-- End Top Bar -->
+  <br>
+  <div class="grid-container">
+    <nav aria-label="Vous êtes ici :" role="navigation">
+      <ul class="breadcrumbs">
+        <li><a href="{{ url_for(accueil) }}">Accueil</a></li>
+        {% block breadcrumb %}{% endblock %}
+      </ul>
+    </nav>
+  </div>
+
+  <article class="grid-container">
+    {% for categorie, message in get_flashed_messages(with_categories=true) %}
+    {% if categorie in ['success', 'alert'] %}
+    <div class="callout {{ categorie }}" data-closable="slide-out-right">
+      {% set titre, texte = message.split(' ! ') %}
+      <p><strong>{{ titre }} !</strong> {{ texte }}</p>
+      <button class="close-button" aria-label="Fermer l'alerte" type="button" data-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% block contenu %}{% endblock %}
+  </article>
+
+  <div class="grid-container" style="margin-top: 3rem">
+    <hr>
+    <ul class="menu simple">
+      <li>Alice BOB</li>
+      <li><a href="{{ url_for(accueil) }}">Accueil</a></li>
+      <li><a href="#">Mentions légales</a></li>
+    </ul>
+  </div>
+  {% endblock %}
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.js"></script>
+  <script>
+    $(document).foundation();
+    $('#boite-cookies').foundation('open');
+  </script>
+  {% block script %}{% endblock %}
+</body>
+
+</html>
