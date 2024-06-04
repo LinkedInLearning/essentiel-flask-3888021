@@ -6,7 +6,7 @@ Ce dossier Repository est lié au cours `L'essentiel de Flask`. Le cours entier 
 
 Ce cours est intégré à GitHub Codespaces, un environnement de développement instantané « dans le nuage » qui offre toutes les fonctionnalités de votre IDE préféré sans nécessiter de configuration sur une machine locale. Avec Codespaces, vous pouvez vous exercer à partir de n'importe quelle machine, à tout moment, tout en utilisant un outil que vous êtes susceptible de rencontrer sur votre lieu de travail. Consultez la vidéo "Utilisation de Codespaces GitHub dans le cadre de ce cours" pour savoir comment démarrer.    
 
-DESCRIPTION DE LA FORMATION
+Dans cette formation, Sylvain Labasse va vous guider à travers les étapes clés du développement web avec Flask, le framework en langage Python qui gagne en popularité. Vous apprendrez à esquisser et à structurer vos applications web, à lier des données et à intégrer des formulaires. La sécurité sera également abordée, avec les contrôles d'accès, notamment autorisations et authentification, ainsi que l'API RESTful et les aspects DevOps pour tester et garantir qualité, déploiement, interactivité et, au final, une bonne expérience utilisateur.		
 
 ## Instructions
 
