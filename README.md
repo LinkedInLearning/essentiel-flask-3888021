@@ -6,7 +6,7 @@ Ce dossier Repository est lié au cours `L'essentiel de Flask`. Le cours entier 
 
 Ce cours est intégré à GitHub Codespaces, un environnement de développement instantané « dans le nuage » qui offre toutes les fonctionnalités de votre IDE préféré sans nécessiter de configuration sur une machine locale. Avec Codespaces, vous pouvez vous exercer à partir de n'importe quelle machine, à tout moment, tout en utilisant un outil que vous êtes susceptible de rencontrer sur votre lieu de travail. Consultez la vidéo "Utilisation de Codespaces GitHub dans le cadre de ce cours" pour savoir comment démarrer.    
 
-DESCRIPTION DE LA FORMATION
+Dans cette formation, Sylvain Labasse va vous guider à travers les étapes clés du développement web avec Flask, le framework en langage Python qui gagne en popularité. Vous apprendrez à esquisser et à structurer vos applications web, à lier des données et à intégrer des formulaires. La sécurité sera également abordée, avec les contrôles d'accès, notamment autorisations et authentification, ainsi que l'API RESTful et les aspects DevOps pour tester et garantir qualité, déploiement, interactivité et, au final, une bonne expérience utilisateur.
 
 ## Instructions
 
@@ -23,8 +23,8 @@ La branche master correspond au code à la fin de la formation.
 
 1. Pour utiliser ces fichiers d’exercice, vous avez besoin de : 
    - Une version récente de Python
-   - Une IDE Python : Visual Studio Code avec l'extension Python, PyCharm, ... 
-2. Clonez ce dossier Repository sur votre machine locale (Mac), GitBash (Windows), ou sur un outil GUI tel que GitHub Desktop ou SourceTree. 
+   - Une IDE Python : Visual Studio Code avec l'extension Python, PyCharm, etc. 
+2. Clonez ce dossier repository sur votre machine locale (Mac), GitBash (Windows), ou sur un outil GUI tel que GitHub Desktop ou SourceTree. 
 3. Ouvrez le dossier dans votre IDE Python
 
 
@@ -35,8 +35,8 @@ La branche master correspond au code à la fin de la formation.
  Retrouvez mes autres formations sur [LinkedIn Learning][lil-URL-trainer].
 
 [0]: # (Replace these placeholder URLs with actual course URLs)
-[lil-course-url]: https://www.linkedin.com
-[lil-thumbnail-url]: https:
+[lil-course-url]: https://www.linkedin.com/learning/l-essentiel-de-flask
+[lil-thumbnail-url]: https://media.licdn.com/dms/image/D4E0DAQH4GGcm3-YOEA/learning-public-crop_675_1200/0/1721720112622?e=2147483647&v=beta&t=-dgf8Pxd4hVnYucfQeSxTVrbpaGbG5RaxggID4qMfsU
 [lil-URL-trainer]: https://www.linkedin.com/learning/instructors/sylvain-labasse
 
 [1]: # (End of FR-Instruction ###############################################################################################)
