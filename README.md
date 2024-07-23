@@ -36,7 +36,7 @@ La branche master correspond au code à la fin de la formation.
 
 [0]: # (Replace these placeholder URLs with actual course URLs)
 [lil-course-url]: https://www.linkedin.com/learning/l-essentiel-de-flask
-[lil-thumbnail-url]: https://media.licdn.com/dms/image/D4E0DAQH4GGcm3-YOEA/learning-public-crop_675_1200/0/1721720112622?e=2147483647&v=beta&t=-dgf8Pxd4hVnYucfQeSxTVrbpaGbG5RaxggID4qMfsU
+[lil-thumbnail-url]: https://media.licdn.com/dms/image/D4E0DAQHQ4bbEzYt4XQ/learning-public-crop_675_1200/0/1721735786057?e=2147483647&v=beta&t=UBu8QVkArvvrzMpFs0LhiCbN1lDB_N9mm41CZ8zZgoo
 [lil-URL-trainer]: https://www.linkedin.com/learning/instructors/sylvain-labasse
 
 [1]: # (End of FR-Instruction ###############################################################################################)
